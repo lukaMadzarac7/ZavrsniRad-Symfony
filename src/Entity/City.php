@@ -27,6 +27,8 @@ class City
     private ?string $city_zip_code = null;
 
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "County")]
+    #[ORM\JoinColumn(name: "county_id", referencedColumnName: "id")]
     private ?int $county_id = null;
 
     public function getId(): ?int
