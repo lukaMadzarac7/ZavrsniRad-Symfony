@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}County{% endblock %}
+
+{% block body %}
+    <h1>County</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ county.id }}</td>
+            </tr>
+            <tr>
+                <th>County</th>
+                <td>{{ county.county }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{{ county.createdAt ? county.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{{ county.updatedAt ? county.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_county_index') }}">back to list</a>
+
+    <a href="{{ path('app_county_edit', {'id': county.id}) }}">edit</a>
+
+    {{ include('county/_delete_form.html.twig') }}
+{% endblock %}
