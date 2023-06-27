@@ -9,6 +9,8 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>CountyId</th>
+                <th>ZipCode</th>
                 <th>City</th>
                 <th>Created_at</th>
                 <th>Updated_at</th>
@@ -19,7 +21,10 @@
         {% for city in cities %}
             <tr>
                 <td>{{ city.id }}</td>
+                <td>{{ city.getCountyId() }}</td>
+                <td>{{ city.getCityZipCode() }}</td>
                 <td>{{ city.city }}</td>
+
                 <td>{{ city.createdAt ? city.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ city.updatedAt ? city.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>

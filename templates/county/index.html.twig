@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>County</th>
+                <th>Enabled</th>
                 <th>Created_at</th>
                 <th>Updated_at</th>
                 <th>actions</th>
@@ -20,6 +21,7 @@
             <tr>
                 <td>{{ county.id }}</td>
                 <td>{{ county.county }}</td>
+                <td>{{ county.isEnabled() }}</td>
                 <td>{{ county.createdAt ? county.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ county.updatedAt ? county.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>

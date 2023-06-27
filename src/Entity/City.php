@@ -17,11 +17,17 @@ class City
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $city_zip_code = null;
+
+    #[ORM\Column]
+    private ?int $county_id = null;
 
     public function getId(): ?int
     {
@@ -60,6 +66,30 @@ class City
     public function setUpdatedAt(?\DateTimeInterface $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getCityZipCode(): ?string
+    {
+        return $this->city_zip_code;
+    }
+
+    public function setCityZipCode(string $city_zip_code): static
+    {
+        $this->city_zip_code = $city_zip_code;
+
+        return $this;
+    }
+
+    public function getCountyId(): ?int
+    {
+        return $this->county_id;
+    }
+
+    public function setCountyId(int $county_id): static
+    {
+        $this->county_id = $county_id;
 
         return $this;
     }

@@ -16,6 +16,10 @@
                 <td>{{ county.county }}</td>
             </tr>
             <tr>
+                <th>Enabled</th>
+                <td>{{ county.isEnabled() }}</td>
+            </tr>
+            <tr>
                 <th>Created_at</th>
                 <td>{{ county.createdAt ? county.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
