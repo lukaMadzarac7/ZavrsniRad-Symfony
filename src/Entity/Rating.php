@@ -13,11 +13,9 @@ class Rating
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(name="rater_id", referencedColumnName="id")
-     */
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "User")]
+    #[ORM\JoinColumn(name: "rater_id", referencedColumnName: "id")]
     private ?int $rater_id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

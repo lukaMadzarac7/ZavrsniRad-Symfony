@@ -13,11 +13,9 @@ class UserInformation
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(name="user_id", referencedColumnName="id")
-     */
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "User")]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
     private ?int $user_id = null;
 
     #[ORM\Column(length: 255)]
@@ -25,23 +23,17 @@ class UserInformation
 
     #[ORM\Column(length: 255)]
     private ?string $adress = null;
-    /**
-     * @ManyToOne(targetEntity="City")
-     * @JoinColumn(name="city_id", referencedColumnName="id")
-     */
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "City")]
+    #[ORM\JoinColumn(name: "city_id", referencedColumnName: "id")]
     private ?int $city_id = null;
-    /**
-     * @ManyToOne(targetEntity="County")
-     * @JoinColumn(name="county_id", referencedColumnName="id")
-     */
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "County")]
+    #[ORM\JoinColumn(name: "county_id", referencedColumnName: "id")]
     private ?int $county_id = null;
-    /**
-     * @ManyToOne(targetEntity="Country")
-     * @JoinColumn(name="country_id", referencedColumnName="id")
-     */
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "Country")]
+    #[ORM\JoinColumn(name: "country_id", referencedColumnName: "id")]
     private ?int $country_id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

@@ -13,17 +13,13 @@ class UserRating
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(name="user_id", referencedColumnName="id")
-     */
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "User")]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
     private ?int $user_id = null;
-    /**
-     * @ManyToOne(targetEntity="Rating")
-     * @JoinColumn(name="rating_id", referencedColumnName="id")
-     */
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "Rating")]
+    #[ORM\JoinColumn(name: "rating_id", referencedColumnName: "id")]
     private ?int $rating_id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

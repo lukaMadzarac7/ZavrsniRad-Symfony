@@ -13,11 +13,10 @@ class ServiceImage
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    /**
-     * @ManyToOne(targetEntity="Service")
-     * @JoinColumn(name="service_id", referencedColumnName="id")
-     */
+
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "Service")]
+    #[ORM\JoinColumn(name: "service_id", referencedColumnName: "id")]
     private ?int $service_id = null;
 
     #[ORM\Column(length: 255)]

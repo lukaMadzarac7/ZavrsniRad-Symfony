@@ -12,42 +12,36 @@ class Service
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+
     private ?int $id = null;
-    /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(name="owner_id", referencedColumnName="id")
-     */
+
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "User")]
+    #[ORM\JoinColumn(name: "owner_id", referencedColumnName: "id")]
     private ?int $owner_id = null;
-    /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(name="creator_id", referencedColumnName="id")
-     */
+
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "User")]
+    #[ORM\JoinColumn(name: "creator_id", referencedColumnName: "id")]
     private ?int $creator_id = null;
-    /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(name="updater_id", referencedColumnName="id")
-     */
+
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "User")]
+    #[ORM\JoinColumn(name: "updater_id", referencedColumnName: "id")]
     private ?int $updater_id = null;
-    /**
-     * @ManyToOne(targetEntity="ServiceStatus")
-     * @JoinColumn(name="service_status_id", referencedColumnName="id")
-     */
+
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "ServiceStatus")]
+    #[ORM\JoinColumn(name: "service_status_id", referencedColumnName: "id")]
     private ?int $service_status_id = null;
-    /**
-     * @ManyToOne(targetEntity="ServiceType")
-     * @JoinColumn(name="service_type_id", referencedColumnName="id")
-     */
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "ServiceType")]
+    #[ORM\JoinColumn(name: "service_type_id", referencedColumnName: "id")]
     private ?int $service_type_id = null;
-    /**
-     * @ManyToOne(targetEntity="ServiceField")
-     * @JoinColumn(name="service_field_id", referencedColumnName="id")
-     */
+
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "ServiceField")]
+    #[ORM\JoinColumn(name: "service_field_id", referencedColumnName: "id")]
     private ?int $service_field_id = null;
 
     #[ORM\Column(length: 255)]
@@ -58,23 +52,17 @@ class Service
 
     #[ORM\Column(length: 255)]
     private ?string $adress = null;
-    /**
-     * @ManyToOne(targetEntity="City")
-     * @JoinColumn(name="city_id", referencedColumnName="id")
-     */
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "City")]
+    #[ORM\JoinColumn(name: "city_id", referencedColumnName: "id")]
     private ?int $city_id = null;
-    /**
-     * @ManyToOne(targetEntity="County")
-     * @JoinColumn(name="county_id", referencedColumnName="id")
-     */
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "County")]
+    #[ORM\JoinColumn(name: "county_id", referencedColumnName: "id")]
     private ?int $county_id = null;
-    /**
-     * @ManyToOne(targetEntity="Country")
-     * @JoinColumn(name="country_id", referencedColumnName="id")
-     */
     #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: "Country")]
+    #[ORM\JoinColumn(name: "country_id", referencedColumnName: "id")]
     private ?int $country_id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
