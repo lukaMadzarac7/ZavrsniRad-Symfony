@@ -47,10 +47,10 @@ final class RatingFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            'created_at' => self::faker()->dateTime(),
-            'rater_id' => self::faker()->randomNumber(1),
-            'rating_score' => self::faker()->randomNumber(1),
+            'created_at' => self::faker()->dateTimeBetween('-1 month', 'now'),
+            'rating_score' => self::faker()->numberBetween(1, 5),
             'text' => self::faker()->text(),
+            'rater' => UserFactory::new(),
         ];
     }
 

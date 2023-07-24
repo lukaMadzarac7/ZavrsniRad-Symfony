@@ -2,6 +2,7 @@
 
 namespace App\Factory;
 
+use App\Entity\City;
 use App\Entity\Service;
 use App\Repository\ServiceRepository;
 use Zenstruck\Foundry\ModelFactory;
@@ -48,21 +49,25 @@ final class ServiceFactory extends ModelFactory
     {
         return [
             'adress' => self::faker()->text(10),
-            'city_id' => self::faker()->randomNumber(1),
-            'country_id' => self::faker()->randomNumber(1),
-            'county_id' => self::faker()->randomNumber(1),
-            'created_at' => self::faker()->dateTime(),
-            'creator_id' => self::faker()->randomNumber(1),
-            'deadline' => self::faker()->dateTime(),
+            'city' => CityFactory::new(),
+            'county' => CountyFactory::new(),
+            'country' => CountryFactory::new(),
+            'created_at' => self::faker()->dateTime('now'),
+            'deadline' => self::faker()->dateTimeBetween('now', '3 months'),
             'description' => self::faker()->text(),
-            'owner_id' => self::faker()->randomNumber(1),
-            'price' => self::faker()->randomNumber(),
-            'service_field_id' => self::faker()->randomNumber(2),
-            'service_status_id' => self::faker()->randomNumber(1),
-            'service_type_id' => self::faker()->randomNumber(1),
+            'price' => self::faker()->numberBetween(10, 1000),
             'title' => self::faker()->text(20),
-            'updater_id' => self::faker()->randomNumber(1),
             'valid_till' => self::faker()->dateTime(),
+            'owner' => UserFactory::new(),
+            'updater' => UserFactory::new(),
+            'creator' => UserFactory::new(),
+            'service_status' => ServiceStatusFactory::new(),
+            'service_type' => ServiceTypeFactory::new(),
+            'service_field' => ServiceFieldFactory::new(),
+
+
+
+
         ];
     }
 
