@@ -4,15 +4,15 @@ namespace App\Form;
 
 use App\Entity\Service;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ServiceType extends AbstractType
+class ServiceUserEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('owner')
             ->add('service_status')
             ->add('service_type')
             ->add('service_field')
@@ -24,7 +24,10 @@ class ServiceType extends AbstractType
             ->add('country')
             ->add('deadline')
             ->add('price')
-            ->add('valid_till')
+            ->add('image', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+            ])
 
         ;
     }

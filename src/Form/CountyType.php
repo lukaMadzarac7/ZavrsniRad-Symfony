@@ -13,8 +13,7 @@ class CountyType extends AbstractType
     {
         $builder
             ->add('county')
-            ->add('created_at')
-            ->add('updated_at')
+
         ;
     }
 

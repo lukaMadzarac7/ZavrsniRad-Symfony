@@ -13,8 +13,7 @@ class CountryType extends AbstractType
     {
         $builder
             ->add('country')
-            ->add('created_at')
-            ->add('updated_at')
+
         ;
     }
 

@@ -13,8 +13,7 @@ class ServiceFieldType extends AbstractType
     {
         $builder
             ->add('field')
-            ->add('created_at')
-            ->add('updated_at')
+
         ;
     }
 

@@ -13,8 +13,8 @@ class CityType extends AbstractType
     {
         $builder
             ->add('city')
-            ->add('created_at')
-            ->add('updated_at')
+            ->add('city_zip_code')
+            ->add('county')
         ;
     }
 

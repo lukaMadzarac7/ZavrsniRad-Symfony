@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\ServiceImage;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,10 +13,11 @@ class ServiceImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('service_id')
-            ->add('image')
-            ->add('created_at')
-            ->add('updated_at')
+            ->add('service')
+            ->add('image', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+            ])
         ;
     }
 

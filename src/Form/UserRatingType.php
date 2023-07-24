@@ -12,10 +12,9 @@ class UserRatingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('user_id')
-            ->add('rating_id')
-            ->add('created_at')
-            ->add('updated_at')
+            ->add('user')
+            ->add('rating')
+
         ;
     }
 

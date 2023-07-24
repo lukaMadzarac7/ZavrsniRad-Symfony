@@ -19,8 +19,7 @@ class UserType extends AbstractType
             ->add('image')
             ->add('email')
             ->add('role')
-            ->add('created_at')
-            ->add('updated_at')
+
         ;
     }
 

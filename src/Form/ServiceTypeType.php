@@ -13,8 +13,7 @@ class ServiceTypeType extends AbstractType
     {
         $builder
             ->add('type')
-            ->add('created_at')
-            ->add('updated_at')
+
         ;
     }
 

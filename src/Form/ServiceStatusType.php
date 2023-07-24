@@ -13,8 +13,7 @@ class ServiceStatusType extends AbstractType
     {
         $builder
             ->add('status')
-            ->add('created_at')
-            ->add('updated_at')
+
         ;
     }
 
