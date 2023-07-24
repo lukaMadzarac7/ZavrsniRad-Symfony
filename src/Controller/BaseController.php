@@ -264,6 +264,20 @@ class BaseController extends AbstractController
         $formUserInfo->handleRequest($request);
 
         if ($formUser->isSubmitted() && $formUser->isValid() && $formUserInfo->isSubmitted() && $formUserInfo->isValid()) {
+
+            $image = $formUser["image"]->getData();
+
+            if($image){
+                $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = Urlizer::urlize($originalFilename).'-'.uniqid().'.'.$image->guessExtension();
+                $user->setImage($newFilename);
+                $image->move(
+                    $destination,
+                    $newFilename
+                );
+            }
+
             $password = $formUser["plainPassword"]->getData();
             $hashedPassword = password_hash( $password, PASSWORD_DEFAULT);
             $user->setPassword($hashedPassword);

@@ -58,6 +58,7 @@ final class UserFactory extends ModelFactory
             'surname' => self::faker()->name,
             'username' => self::faker()->userName,
             'password' => password_hash( 'tada', PASSWORD_DEFAULT),
+            'image' => 'https://picsum.photos/200/300',
 
         ];
     }

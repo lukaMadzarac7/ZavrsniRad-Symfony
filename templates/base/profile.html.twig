@@ -3,6 +3,21 @@
 {% block title %}Moj profil{% endblock %}
 {% block body %}
 <div style="margin: 40px;">
+
+    {% if profileUser.image != null %}
+        {% if 'http' in profileUser.image %}
+            <img src="{{ profileUser.image }}" style="border-radius: 50%; margin-bottom:20px;" alt="Avatar" width="150px" height="150px">
+        {% else %}
+            {% set imgPath = 'uploads/' ~ profileUser.image %}
+            <img src="{{ asset(imgPath) }}" style="border-radius: 50%; margin-bottom:20px;" alt="Avatar" width="150px" height="150px">
+
+        {% endif %}
+
+    {% else %}
+        {% set imgPath = 'uploads/generic_profile.png' %}
+        <img src="{{ asset(imgPath) }}" style="border-radius: 50%; margin-bottom:20px;" alt="Avatar" width="150px" height="150px">
+    {% endif %}
+
     {% if user == profileUser %}
         <h1 style="margin-bottom:20px;">My Profile</h1>
     {% else %}

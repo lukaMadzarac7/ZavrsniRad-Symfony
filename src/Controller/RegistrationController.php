@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\ServiceImage;
 use App\Entity\User;
 use App\Entity\UserInformation;
 use App\Form\RegistrationFormType;
 use App\Form\UserInformationFormType;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use Gedmo\Sluggable\Util\Urlizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,6 +43,19 @@ class RegistrationController extends AbstractController
 
             $userInformation->setUser($user);
             $userInformation->setCreatedAt(new \DateTime());
+
+            $image = $formUser["image"]->getData();
+
+            if($image){
+                $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = Urlizer::urlize($originalFilename).'-'.uniqid().'.'.$image->guessExtension();
+                $user->setImage($newFilename);
+                $image->move(
+                    $destination,
+                    $newFilename
+                );
+            }
 
             $entityManager->persist($user);
             $entityManager->persist($userInformation);
