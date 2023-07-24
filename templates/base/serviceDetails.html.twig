@@ -1,0 +1,101 @@
+{% extends 'base/index.html.twig' %}
+
+{% block title %}Service Details{% endblock %}
+{% block body %}
+    <div style="margin:40px;">
+    <h1 style="margin-bottom: 20px;">Service Details</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Title</th>
+            <td>{{ service.title }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ service.description }}</td>
+        </tr>
+        <tr>
+            <th>Service Status</th>
+            <td>{{ service.serviceStatus }}</td>
+        </tr>
+        <tr>
+            <th>Service Field</th>
+            <td>{{ service.serviceField }}</td>
+        </tr>
+        <tr>
+            <th>Adress</th>
+            <td>{{ service.adress }}</td>
+        </tr>
+        <tr>
+            <th>City</th>
+            <td>{{ service.city }}</td>
+        </tr>
+        <tr>
+            <th>County</th>
+            <td>{{ service.county }}</td>
+        </tr>
+        <tr>
+            <th>Country</th>
+            <td>{{ service.country }}</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>{{ service.price }} €</td>
+        </tr>
+        <tr>
+            <th>Deadline</th>
+            <td>{{ service.deadline ? service.deadline|ago }}</td>
+        </tr>
+        <tr>
+            <th>Posted</th>
+            <td>{{ service.createdAt ? service.createdAt|ago }}</td>
+        </tr>
+        {% if images != null %}
+            <tr>
+                <th>Images</th>
+
+                <td>
+                    {% for image in images %}
+                        {% if 'http' in image.image %}
+
+                            <img src="{{ image.image }}" alt="Image" style="">
+
+                        {% else %}
+                            {% set imgPath = 'uploads/' ~ image.image %}
+                            <img src="{{ asset(imgPath) }}" alt="Image" style="">
+
+                        {% endif %}
+
+                    {% endfor %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <th>Images</th>
+
+                <td>
+                    <p>This service has no images.</p>
+                </td>
+            </tr>
+        {% endif %}
+
+        </tbody>
+    </table>
+
+
+    {% if user != owner %}
+
+        <a class="btn btn-primary" href="{{ path('app_profile', {'id' : owner.id}) }}" role="button" style="margin-bottom: 20px;">Contact</a>
+
+
+    {% else %}
+        <a class="btn btn-warning" href="{{ path('app_service_user_edit',  {'id': service.id})  }}" role="button">Edit Service</a>
+
+    {% endif %}
+
+    </div>
+
+
+
+{% endblock %}

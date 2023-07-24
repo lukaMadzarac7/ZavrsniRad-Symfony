@@ -1,0 +1,163 @@
+{% extends 'base/index.html.twig' %}
+
+{% block title %}Moj profil{% endblock %}
+{% block body %}
+<div style="margin: 40px;">
+    {% if user == profileUser %}
+        <h1 style="margin-bottom:20px;">My Profile</h1>
+    {% else %}
+        <h1 style="margin-bottom:20px;">User's Profile</h1>
+    {% endif %}
+    {% if ratings != null%}
+        <h4>Average rating: {{ averageRating }} / 5 stars</h4>
+
+    {% endif %}
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Name</th>
+            <td>{{ profileUser.name }}</td>
+        </tr>
+        <tr>
+            <th>Surname</th>
+            <td>{{ profileUser.surname }}</td>
+        </tr>
+        {% if userInformation != null %}
+        <tr>
+            <th>Adress</th>
+            <td>{{ userInformation.adress }}</td>
+        </tr>
+        <tr>
+            <th>City</th>
+            <td>{{ userInformation.city }}</td>
+        </tr>
+        <tr>
+            <th>County</th>
+            <td>{{ userInformation.county }}</td>
+        </tr>
+        <tr>
+            <th>Country</th>
+            <td>{{ userInformation.country }}</td>
+        </tr>
+        <tr>
+            <th>Phone Number</th>
+            <td>{{ userInformation.phoneNumber }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th>Username</th>
+            <td>{{ profileUser.username }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ profileUser.email }}</td>
+        </tr>
+        </tbody>
+    </table>
+    {% if user == profileUser %}
+        <a class="btn btn-warning" href="{{ path('app_profile_user_edit') }}" role="button">Edit Profile</a>
+    {% else %}
+        <a class="btn btn-secondary" href="{{ path('app_rate_user', {'id': profileUser.id}) }}" role="button">Rate User</a>
+
+    {% endif %}
+
+
+    <div style="margin-top: 40px;">
+        {% if user == profileUser %}
+            <h1 style="margin-bottom: 20px;">My Services</h1>
+            <a class="btn btn-success" href="{{ path('app_service_user_new') }}" role="button" style="margin-bottom: 20px;">New Service</a>
+        {% else %}
+            <h1 style="margin-bottom:20px;">User's Services</h1>
+        {% endif %}
+
+    </div>
+
+
+
+
+    <div class="row" style="margin-top: 10px;">
+    {% if services is not empty %}
+        {% for service in services %}
+
+            <div class="col-sm-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ service.title }}</h5>
+                        <p class="card-text">{{ service.description|u.truncate(30, '...', false) }}</p>
+                        <a href="{{ path('app_service_details', {'id': service.id})}}" class="btn btn-primary">Service Details</a>
+                    </div>
+                </div>
+            </div>
+
+
+        {% endfor %}
+    {% else %}
+        {% if user == profileUser %}
+            <tr>
+                <th>You have no services.</th>
+            </tr>
+        {% else %}
+            <tr>
+                <th>User has no services.</th>
+            </tr>
+
+        {% endif %}
+
+
+    {% endif %}
+    </div>
+
+    <div style="margin-top: 40px;">
+        {% if user == profileUser %}
+            <h1 style="margin-bottom: 20px;">Ratings on My Services</h1>
+        {% else %}
+            <h1 style="margin-bottom:20px;">Ratings on User's Services</h1>
+        {% endif %}
+
+
+        <div class="row">
+            {% if ratings is not empty %}
+            {% for rating in ratings %}
+
+                <div class="col-sm-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <a href="{{ path('app_profile', {'id': rating.rating.rater.id})}}" class="card-title">{{ rating.rating.rater }}</a>
+                            <p class="card-text">{{ rating.rating.text }}</p>
+                            <h4 class="card-text">{{ rating.rating.ratingScore }}/5 stars</h4>
+                            <p class="card-text"><b>Posted {{ rating.rating.createdAt ? rating.rating.createdAt|ago }}</b></p>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+            {% endfor %}
+            {% else %}
+            {% if user == profileUser %}
+                <tr>
+                    <th>You have no ratings.</th>
+                </tr>
+            {% else %}
+                <tr>
+                    <th>User has no ratings.</th>
+                </tr>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+
+
+
+    </div>
+
+    </div>
+
+
+
+{% endblock %}

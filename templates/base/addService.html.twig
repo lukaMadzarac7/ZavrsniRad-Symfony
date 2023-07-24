@@ -1,0 +1,31 @@
+{% extends 'base/index.html.twig' %}
+
+{% block title %}Add Service{% endblock %}
+
+{% block body %}
+
+    <div style="margin:40px;">
+    <h1 style="margin-bottom: 20px;">Create new Service</h1>
+
+
+    {{ form_start(form) }}
+        {{ form_row(form.image) }}
+        {{ form_row(form.service_status) }}
+        {{ form_row(form.service_type) }}
+        {{ form_row(form.service_field) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.adress) }}
+        {{ form_row(form.city) }}
+        {{ form_row(form.county) }}
+        {{ form_row(form.country) }}
+        {{ form_row(form.deadline) }}
+        {{ form_row(form.price) }}
+
+
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    <a href="{{ path('app_profile', {'id' : user.id}) }}">Cancel</a>
+    {{ form_end(form) }}
+
+    </div>
+{% endblock %}

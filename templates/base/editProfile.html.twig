@@ -1,0 +1,22 @@
+{% extends 'base/index.html.twig' %}
+
+{% block title %}Edit Profile Information{% endblock %}
+
+{% block body %}
+    <div style="margin:40px;">
+    <h1 style="margin-bottom:20px;">Edit Profile Information</h1>
+
+    {{ form_start(formUser) }}
+    {{ form_widget(formUser) }}
+    {{ form_start(formUserInfo) }}
+    {{ form_widget(formUserInfo) }}
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    <a href="{{ path('app_profile', {'id' : user.id}) }}">Cancel</a>
+    {{ form_end(formUser) }}
+    {{ form_end(formUserInfo) }}
+
+    </div>
+
+
+
+{% endblock %}

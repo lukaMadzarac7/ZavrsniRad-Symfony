@@ -1,0 +1,16 @@
+{% extends 'base/index.html.twig' %}
+
+{% block title %}Rate User{% endblock %}
+
+{% block body %}
+    <div style="margin:40px;">
+    <h1 style="margin-bottom:20px;">Rate {{ rated.username }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary">{{ button_label|default('Rate') }}</button>
+    <a href="{{ path('app_profile', {'id' : user.id}) }}">Cancel</a>
+    {{ form_end(form) }}
+    </div>
+
+{% endblock %}
