@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CountyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +27,22 @@ class County
 
     #[ORM\Column]
     private ?bool $enabled = null;
+
+    #[ORM\OneToMany(mappedBy: 'county', targetEntity: Service::class)]
+    private Collection $services;
+
+    #[ORM\OneToMany(mappedBy: 'county', targetEntity: UserInformation::class)]
+    private Collection $userInformation;
+
+    #[ORM\OneToMany(mappedBy: 'county', targetEntity: City::class)]
+    private Collection $cities;
+
+    public function __construct()
+    {
+        $this->services = new ArrayCollection();
+        $this->userInformation = new ArrayCollection();
+        $this->cities = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +93,100 @@ class County
     public function setEnabled(bool $enabled): static
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Service>
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(Service $service): static
+    {
+        if (!$this->services->contains($service)) {
+            $this->services->add($service);
+            $service->setCounty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(Service $service): static
+    {
+        if ($this->services->removeElement($service)) {
+            // set the owning side to null (unless already changed)
+            if ($service->getCounty() === $this) {
+                $service->setCounty(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->county;
+    }
+
+    /**
+     * @return Collection<int, UserInformation>
+     */
+    public function getUserInformation(): Collection
+    {
+        return $this->userInformation;
+    }
+
+    public function addUserInformation(UserInformation $userInformation): static
+    {
+        if (!$this->userInformation->contains($userInformation)) {
+            $this->userInformation->add($userInformation);
+            $userInformation->setCounty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserInformation(UserInformation $userInformation): static
+    {
+        if ($this->userInformation->removeElement($userInformation)) {
+            // set the owning side to null (unless already changed)
+            if ($userInformation->getCounty() === $this) {
+                $userInformation->setCounty(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, City>
+     */
+    public function getCities(): Collection
+    {
+        return $this->cities;
+    }
+
+    public function addCity(City $city): static
+    {
+        if (!$this->cities->contains($city)) {
+            $this->cities->add($city);
+            $city->setCounty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCity(City $city): static
+    {
+        if ($this->cities->removeElement($city)) {
+            // set the owning side to null (unless already changed)
+            if ($city->getCounty() === $this) {
+                $city->setCounty(null);
+            }
+        }
 
         return $this;
     }

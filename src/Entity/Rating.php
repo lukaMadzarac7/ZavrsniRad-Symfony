@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RatingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,10 +15,6 @@ class Rating
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "rater_id", referencedColumnName: "id")]
-    private ?int $rater_id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $text = null;
@@ -30,22 +28,23 @@ class Rating
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ratings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $rater = null;
+
+    #[ORM\OneToMany(mappedBy: 'rating', targetEntity: UserRating::class)]
+    private Collection $userRatings;
+
+    public function __construct()
+    {
+        $this->userRatings = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getRaterId(): ?int
-    {
-        return $this->rater_id;
-    }
-
-    public function setRaterId(int $rater_id): static
-    {
-        $this->rater_id = $rater_id;
-
-        return $this;
-    }
 
     public function getText(): ?string
     {
@@ -94,4 +93,51 @@ class Rating
 
         return $this;
     }
+
+    public function getRater(): ?User
+    {
+        return $this->rater;
+    }
+
+    public function setRater(?User $rater): static
+    {
+        $this->rater = $rater;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserRating>
+     */
+    public function getUserRatings(): Collection
+    {
+        return $this->userRatings;
+    }
+
+    public function addUserRating(UserRating $userRating): static
+    {
+        if (!$this->userRatings->contains($userRating)) {
+            $this->userRatings->add($userRating);
+            $userRating->setRating($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRating(UserRating $userRating): static
+    {
+        if ($this->userRatings->removeElement($userRating)) {
+            // set the owning side to null (unless already changed)
+            if ($userRating->getRating() === $this) {
+                $userRating->setRating(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->text;
+    }
+
 }

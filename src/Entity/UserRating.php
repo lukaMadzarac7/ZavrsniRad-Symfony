@@ -13,14 +13,7 @@ class UserRating
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
-    private ?int $user_id = null;
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "Rating")]
-    #[ORM\JoinColumn(name: "rating_id", referencedColumnName: "id")]
-    private ?int $rating_id = null;
+
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
@@ -28,34 +21,19 @@ class UserRating
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
 
+    #[ORM\ManyToOne(inversedBy: 'userRatings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'userRatings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Rating $rating = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(int $user_id): static
-    {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
-
-    public function getRatingId(): ?int
-    {
-        return $this->rating_id;
-    }
-
-    public function setRatingId(int $rating_id): static
-    {
-        $this->rating_id = $rating_id;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -77,6 +55,30 @@ class UserRating
     public function setUpdatedAt(?\DateTimeInterface $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getRating(): ?Rating
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?Rating $rating): static
+    {
+        $this->rating = $rating;
 
         return $this;
     }

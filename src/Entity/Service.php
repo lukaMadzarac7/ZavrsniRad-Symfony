@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ServiceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,37 +14,7 @@ class Service
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-
     private ?int $id = null;
-
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "owner_id", referencedColumnName: "id")]
-    private ?int $owner_id = null;
-
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "creator_id", referencedColumnName: "id")]
-    private ?int $creator_id = null;
-
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "updater_id", referencedColumnName: "id")]
-    private ?int $updater_id = null;
-
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "ServiceStatus")]
-    #[ORM\JoinColumn(name: "service_status_id", referencedColumnName: "id")]
-    private ?int $service_status_id = null;
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "ServiceType")]
-    #[ORM\JoinColumn(name: "service_type_id", referencedColumnName: "id")]
-    private ?int $service_type_id = null;
-
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "ServiceField")]
-    #[ORM\JoinColumn(name: "service_field_id", referencedColumnName: "id")]
-    private ?int $service_field_id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -52,18 +24,6 @@ class Service
 
     #[ORM\Column(length: 255)]
     private ?string $adress = null;
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "City")]
-    #[ORM\JoinColumn(name: "city_id", referencedColumnName: "id")]
-    private ?int $city_id = null;
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "County")]
-    #[ORM\JoinColumn(name: "county_id", referencedColumnName: "id")]
-    private ?int $county_id = null;
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "Country")]
-    #[ORM\JoinColumn(name: "country_id", referencedColumnName: "id")]
-    private ?int $country_id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $deadline = null;
@@ -80,82 +40,54 @@ class Service
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
 
+    #[ORM\ManyToOne(inversedBy: 'services')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $owner = null;
+
+    #[ORM\ManyToOne]
+    private ?User $creator = null;
+
+    #[ORM\ManyToOne(inversedBy: 'updated_services')]
+    private ?User $updater = null;
+
+    #[ORM\ManyToOne(inversedBy: 'services_of_status')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ServiceStatus $service_status = null;
+
+    #[ORM\ManyToOne(inversedBy: 'services_of_type')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ServiceType $service_type = null;
+
+    #[ORM\ManyToOne(inversedBy: 'services_of_field')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ServiceField $service_field = null;
+
+    #[ORM\ManyToOne(inversedBy: 'services')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?City $city = null;
+
+    #[ORM\ManyToOne(inversedBy: 'services')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?County $county = null;
+
+    #[ORM\ManyToOne(inversedBy: 'services')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Country $country = null;
+
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: ServiceImage::class)]
+    private Collection $serviceImages;
+
+    public function __construct()
+    {
+        $this->service_id = new ArrayCollection();
+        $this->serviceImages = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getOwnerId(): ?int
-    {
-        return $this->owner_id;
-    }
-
-    public function setOwnerId(int $owner_id): static
-    {
-        $this->owner_id = $owner_id;
-
-        return $this;
-    }
-
-    public function getCreatorId(): ?int
-    {
-        return $this->creator_id;
-    }
-
-    public function setCreatorId(int $creator_id): static
-    {
-        $this->creator_id = $creator_id;
-
-        return $this;
-    }
-
-    public function getUpdaterId(): ?int
-    {
-        return $this->updater_id;
-    }
-
-    public function setUpdaterId(int $updater_id): static
-    {
-        $this->updater_id = $updater_id;
-
-        return $this;
-    }
-
-    public function getServiceStatusId(): ?int
-    {
-        return $this->service_status_id;
-    }
-
-    public function setServiceStatusId(int $service_status_id): static
-    {
-        $this->service_status_id = $service_status_id;
-
-        return $this;
-    }
-
-    public function getServiceTypeId(): ?int
-    {
-        return $this->service_type_id;
-    }
-
-    public function setServiceTypeId(int $service_type_id): static
-    {
-        $this->service_type_id = $service_type_id;
-
-        return $this;
-    }
-
-    public function getServiceFieldId(): ?int
-    {
-        return $this->service_field_id;
-    }
-
-    public function setServiceFieldId(int $service_field_id): static
-    {
-        $this->service_field_id = $service_field_id;
-
-        return $this;
-    }
 
     public function getTitle(): ?string
     {
@@ -193,41 +125,6 @@ class Service
         return $this;
     }
 
-    public function getCityId(): ?int
-    {
-        return $this->city_id;
-    }
-
-    public function setCityId(int $city_id): static
-    {
-        $this->city_id = $city_id;
-
-        return $this;
-    }
-
-    public function getCountyId(): ?int
-    {
-        return $this->county_id;
-    }
-
-    public function setCountyId(int $county_id): static
-    {
-        $this->county_id = $county_id;
-
-        return $this;
-    }
-
-    public function getCountryId(): ?int
-    {
-        return $this->country_id;
-    }
-
-    public function setCountryId(int $country_id): static
-    {
-        $this->country_id = $country_id;
-
-        return $this;
-    }
 
     public function getDeadline(): ?\DateTimeInterface
     {
@@ -288,4 +185,149 @@ class Service
 
         return $this;
     }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): static
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): static
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    public function getUpdater(): ?User
+    {
+        return $this->updater;
+    }
+
+    public function setUpdater(?User $updater): static
+    {
+        $this->updater = $updater;
+
+        return $this;
+    }
+
+    public function getServiceStatus(): ?ServiceStatus
+    {
+        return $this->service_status;
+    }
+
+    public function setServiceStatus(?ServiceStatus $service_status): static
+    {
+        $this->service_status = $service_status;
+
+        return $this;
+    }
+
+    public function getServiceType(): ?ServiceType
+    {
+        return $this->service_type;
+    }
+
+    public function setServiceType(?ServiceType $service_type): static
+    {
+        $this->service_type = $service_type;
+
+        return $this;
+    }
+
+    public function getServiceField(): ?ServiceField
+    {
+        return $this->service_field;
+    }
+
+    public function setServiceField(?ServiceField $service_field): static
+    {
+        $this->service_field = $service_field;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getCounty(): ?County
+    {
+        return $this->county;
+    }
+
+    public function setCounty(?County $county): static
+    {
+        $this->county = $county;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): static
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->title;
+    }
+
+    /**
+     * @return Collection<int, ServiceImage>
+     */
+    public function getServiceImages(): Collection
+    {
+        return $this->serviceImages;
+    }
+
+    public function addServiceImage(ServiceImage $serviceImage): static
+    {
+        if (!$this->serviceImages->contains($serviceImage)) {
+            $this->serviceImages->add($serviceImage);
+            $serviceImage->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeServiceImage(ServiceImage $serviceImage): static
+    {
+        if ($this->serviceImages->removeElement($serviceImage)) {
+            // set the owning side to null (unless already changed)
+            if ($serviceImage->getService() === $this) {
+                $serviceImage->setService(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }
+

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ServiceStatusRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,15 @@ class ServiceStatus
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
+
+    #[ORM\OneToMany(mappedBy: 'service_status', targetEntity: Service::class)]
+    private Collection $services_of_status;
+
+    public function __construct()
+    {
+        $this->services_of_status = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -63,4 +74,39 @@ class ServiceStatus
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Service>
+     */
+    public function getServicesOfStatus(): Collection
+    {
+        return $this->services_of_status;
+    }
+
+    public function addServicesOfStatus(Service $servicesOfStatus): static
+    {
+        if (!$this->services_of_status->contains($servicesOfStatus)) {
+            $this->services_of_status->add($servicesOfStatus);
+            $servicesOfStatus->setServiceStatus($this);
+        }
+
+        return $this;
+    }
+
+    public function removeServicesOfStatus(Service $servicesOfStatus): static
+    {
+        if ($this->services_of_status->removeElement($servicesOfStatus)) {
+            // set the owning side to null (unless already changed)
+            if ($servicesOfStatus->getServiceStatus() === $this) {
+                $servicesOfStatus->setServiceStatus(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->status;
+    }
+
 }

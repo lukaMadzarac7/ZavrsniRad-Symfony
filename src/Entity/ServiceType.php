@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ServiceTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,15 @@ class ServiceType
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
+
+    #[ORM\OneToMany(mappedBy: 'service_type', targetEntity: Service::class)]
+    private Collection $services_of_type;
+
+    public function __construct()
+    {
+        $this->services = new ArrayCollection();
+        $this->services_of_type = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -63,4 +74,39 @@ class ServiceType
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Service>
+     */
+    public function getServicesOfType(): Collection
+    {
+        return $this->services_of_type;
+    }
+
+    public function addServicesOfType(Service $servicesOfType): static
+    {
+        if (!$this->services_of_type->contains($servicesOfType)) {
+            $this->services_of_type->add($servicesOfType);
+            $servicesOfType->setServiceType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeServicesOfType(Service $servicesOfType): static
+    {
+        if ($this->services_of_type->removeElement($servicesOfType)) {
+            // set the owning side to null (unless already changed)
+            if ($servicesOfType->getServiceType() === $this) {
+                $servicesOfType->setServiceType(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->type;
+    }
+    
 }

@@ -13,28 +13,12 @@ class UserInformation
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
-    private ?int $user_id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $phone_number = null;
 
     #[ORM\Column(length: 255)]
     private ?string $adress = null;
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "City")]
-    #[ORM\JoinColumn(name: "city_id", referencedColumnName: "id")]
-    private ?int $city_id = null;
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "County")]
-    #[ORM\JoinColumn(name: "county_id", referencedColumnName: "id")]
-    private ?int $county_id = null;
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: "Country")]
-    #[ORM\JoinColumn(name: "country_id", referencedColumnName: "id")]
-    private ?int $country_id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
@@ -42,22 +26,27 @@ class UserInformation
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
 
+    #[ORM\OneToOne(inversedBy: 'userInformation', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'userInformation')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?City $city = null;
+
+    #[ORM\ManyToOne(inversedBy: 'userInformation')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?County $county = null;
+
+    #[ORM\ManyToOne(inversedBy: 'userInformation')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Country $country = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(int $user_id): static
-    {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
 
     public function getPhoneNumber(): ?string
     {
@@ -83,42 +72,6 @@ class UserInformation
         return $this;
     }
 
-    public function getCityId(): ?int
-    {
-        return $this->city_id;
-    }
-
-    public function setCityId(int $city_id): static
-    {
-        $this->city_id = $city_id;
-
-        return $this;
-    }
-
-    public function getCountyId(): ?int
-    {
-        return $this->county_id;
-    }
-
-    public function setCountyId(int $county_id): static
-    {
-        $this->county_id = $county_id;
-
-        return $this;
-    }
-
-    public function getCountryId(): ?int
-    {
-        return $this->country_id;
-    }
-
-    public function setCountryId(int $country_id): static
-    {
-        $this->country_id = $country_id;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
@@ -139,6 +92,54 @@ class UserInformation
     public function setUpdatedAt(?\DateTimeInterface $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getCounty(): ?County
+    {
+        return $this->county;
+    }
+
+    public function setCounty(?County $county): static
+    {
+        $this->county = $county;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): static
+    {
+        $this->country = $country;
 
         return $this;
     }
