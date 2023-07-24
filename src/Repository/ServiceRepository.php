@@ -2,9 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\City;
+use App\Entity\County;
 use App\Entity\Service;
+use App\Entity\ServiceField;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 
 /**
  * @extends ServiceEntityRepository<Service>
@@ -54,13 +58,185 @@ class ServiceRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Service
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+
+
+    public function findOneBySomeField(): ?Array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.city = :val')
+            ->setParameter('val', 'a')
+            ->getQuery()
+            ->getArrayResult()
+        ;
+    }
+
+    public function findByCity($city): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.city = :val')
+            ->setParameter('val', $city)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    /**
+     * @return Service[]
+     */
+    //                    ->setParameter('searchTerm', '%'.$term.'%')
+    public function search($term, $field, $county, $city): array
+    {
+        if ($term == null) {
+            if ($field != null && $county != null && $city != null) {
+                return $this->createQueryBuilder('s')
+                    ->andWhere('s.service_field = :field')
+                    ->andWhere('s.county = :county')
+                    ->andWhere('s.city = :city')
+                    ->setParameter('field', $field)
+                    ->setParameter('county', $county)
+                    ->setParameter('city', $city)
+                    ->getQuery()
+                    ->getResult();
+            } else if ($field == null && $county != null && $city != null) {
+                return $this->createQueryBuilder('s')
+                    ->andWhere('s.county = :county')
+                    ->andWhere('s.city = :city')
+                    ->setParameter('county', $county)
+                    ->setParameter('city', $city)
+                    ->getQuery()
+                    ->getResult();
+            } else if ($field != null && $county == null && $city != null) {
+                return $this->createQueryBuilder('s')
+                    ->andWhere('s.service_field = :field')
+                    ->andWhere('s.city = :city')
+                    ->setParameter('field', $field)
+                    ->setParameter('city', $city)
+                    ->getQuery()
+                    ->getResult();
+            } else if ($field != null && $county != null && $city == null) {
+                return $this->createQueryBuilder('s')
+                    ->andWhere('s.service_field = :field')
+                    ->andWhere('s.county = :county')
+                    ->setParameter('field', $field)
+                    ->setParameter('county', $county)
+                    ->getQuery()
+                    ->getResult();
+            } else if ($field == null && $county == null && $city != null) {
+                return $this->createQueryBuilder('s')
+                    ->andWhere('s.city = :city')
+                    ->setParameter('city', $city)
+                    ->getQuery()
+                    ->getResult();
+            } else if ($field == null && $county != null && $city == null) {
+                return $this->createQueryBuilder('s')
+                    ->andWhere('s.county = :county')
+                    ->setParameter('county', $county)
+                    ->getQuery()
+                    ->getResult();
+            } else if ($field != null && $county == null && $city == null) {
+                return $this->createQueryBuilder('s')
+                    ->andWhere('s.service_field = :field')
+                    ->setParameter('field', $field)
+                    ->getQuery()
+                    ->getResult();
+            } else if ($field == null && $county == null && $city == null) {
+                return $this->createQueryBuilder('s')
+                    ->getQuery()
+                    ->getResult();
+            }
+        } else if ($field != null && $county != null && $city != null) {
+            return $this->createQueryBuilder('s')
+                ->andWhere('s.title LIKE :searchTerm')
+                ->orWhere('s.description LIKE :searchTerm')
+                ->andWhere('s.service_field = :field')
+                ->andWhere('s.county = :county')
+                ->andWhere('s.city = :city')
+                ->setParameter('searchTerm', '%'.$term.'%')
+                ->setParameter('field', $field)
+                ->setParameter('county', $county)
+                ->setParameter('city', $city)
+                ->getQuery()
+                ->getResult();
+        } else if ($field == null && $county != null && $city != null) {
+            return $this->createQueryBuilder('s')
+                ->andWhere('s.title LIKE :searchTerm')
+                ->orWhere('s.description LIKE :searchTerm')
+                ->andWhere('s.county = :county')
+                ->andWhere('s.city = :city')
+                ->setParameter('searchTerm', '%'.$term.'%')
+                ->setParameter('county', $county)
+                ->setParameter('city', $city)
+                ->getQuery()
+                ->getResult();
+        } else if ($field != null && $county == null && $city != null) {
+            return $this->createQueryBuilder('s')
+                ->andWhere('s.title LIKE :searchTerm')
+                ->orWhere('s.description LIKE :searchTerm')
+                ->andWhere('s.service_field = :field')
+                ->andWhere('s.city = :city')
+                ->setParameter('searchTerm', '%'.$term.'%')
+                ->setParameter('field', $field)
+                ->setParameter('city', $city)
+                ->getQuery()
+                ->getResult();
+        } else if ($field != null && $county != null && $city == null) {
+            return $this->createQueryBuilder('s')
+                ->andWhere('s.title LIKE :searchTerm')
+                ->orWhere('s.description LIKE :searchTerm')
+                ->andWhere('s.service_field = :field')
+                ->andWhere('s.county = :county')
+                ->setParameter('searchTerm', '%'.$term.'%')
+                ->setParameter('field', $field)
+                ->setParameter('county', $county)
+                ->getQuery()
+                ->getResult();
+        } else if ($field == null && $county == null && $city != null) {
+            return $this->createQueryBuilder('s')
+                ->andWhere('s.title LIKE :searchTerm')
+                ->orWhere('s.description LIKE :searchTerm')
+                ->andWhere('s.city = :city')
+                ->setParameter('searchTerm', '%'.$term.'%')
+                ->setParameter('city', $city)
+                ->getQuery()
+                ->getResult();
+        } else if ($field == null && $county != null && $city == null) {
+            return $this->createQueryBuilder('s')
+                ->andWhere('s.title LIKE :searchTerm')
+                ->orWhere('s.description LIKE :searchTerm')
+                ->andWhere('s.county = :county')
+                ->setParameter('searchTerm', '%'.$term.'%')
+                ->setParameter('county', $county)
+                ->getQuery()
+                ->getResult();
+        } else if ($field != null && $county == null && $city == null) {
+            return $this->createQueryBuilder('s')
+                ->andWhere('s.title LIKE :searchTerm')
+                ->orWhere('s.description LIKE :searchTerm')
+                ->andWhere('s.service_field = :field')
+                ->setParameter('searchTerm', '%'.$term.'%')
+                ->setParameter('field', $field)
+                ->getQuery()
+                ->getResult();
+        } else if ($field == null && $county == null && $city == null) {
+            return $this->createQueryBuilder('s')
+                ->andWhere('s.title LIKE :searchTerm')
+                ->orWhere('s.description LIKE :searchTerm')
+                ->setParameter('searchTerm', '%'.$term.'%')
+                ->getQuery()
+                ->getResult();
+        }
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.title LIKE :searchTerm')
+            ->orWhere('s.description LIKE :searchTerm')
+            ->andWhere('s.service_field = :field')
+            ->andWhere('s.county = :county')
+            ->andWhere('s.city = :city')
+            ->setParameter('searchTerm', '%'.$term.'%')
+            ->setParameter('field', $field)
+            ->setParameter('county', $county)
+            ->setParameter('city', $city)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
