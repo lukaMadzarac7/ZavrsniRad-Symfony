@@ -1,0 +1,71 @@
+{% extends 'admin/dashboard/dashboard.html.twig' %}
+
+{% block title %}Service index{% endblock %}
+
+{% block data %}
+    <h1>Service index</h1>
+    <br><button onclick="window.location.href='{{ path('app_service_new') }}';" type="button" class="btn btn-primary vertical-center">Create new</button><br><br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Owner</th>
+                <th>Creator</th>
+                <th>Updater</th>
+                <th>Status</th>
+                <th>Type</th>
+                <th>Field</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Adress</th>
+                <th>City</th>
+                <th>County</th>
+                <th>Country</th>
+                <th>Deadline</th>
+                <th>Price</th>
+                <th>Valid_till</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for service in services %}
+            {% dump(service) %}
+
+            <tr>
+                <td>{{ service.id }}</td>
+                <td>{{ service.owner.name ~ " " ~ service.owner.surname }} </td>
+                <td>{{ service.creator.name ~ " " ~ service.creator.surname }} </td>
+                <td>{{ service.updater.name ~ " " ~ service.updater.surname }} </td>
+                <td>{{ service.serviceStatus.status }} </td>
+                <td>{{ service.serviceType.type }} </td>
+                <td>{{ service.serviceField.field() }} </td>
+                <td>{{ service.title }}</td>
+                <td>{{ service.description }}</td>
+                <td>{{ service.adress }}</td>
+                <td>{{ service.city.city }}</td>
+                <td>{{ service.county.county }}</td>
+                <td>{{ service.country.country }}</td>
+                <td>{{ service.deadline ? service.deadline|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ service.price }}</td>
+                <td>{{ service.validTill ? service.validTill|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ service.createdAt ? service.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ service.updatedAt ? service.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_service_show', {'id': service.id}) }}">show</a>
+                    <a href="{{ path('app_service_edit', {'id': service.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="19">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_service_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'admin/dashboard/dashboard.html.twig' %}
+
+{% block title %}ServiceType index{% endblock %}
+
+{% block data %}
+    <h1>ServiceType index</h1>
+    <br><button onclick="window.location.href='{{ path('app_service_type_new') }}';" type="button" class="btn btn-primary vertical-center">Create new</button><br><br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for service_type in service_types %}
+            <tr>
+                <td>{{ service_type.id }}</td>
+                <td>{{ service_type.type }}</td>
+                <td>{{ service_type.createdAt ? service_type.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ service_type.updatedAt ? service_type.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_service_type_show', {'id': service_type.id}) }}">show</a>
+                    <a href="{{ path('app_service_type_edit', {'id': service_type.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_service_type_new') }}">Create new</a>
+{% endblock %}

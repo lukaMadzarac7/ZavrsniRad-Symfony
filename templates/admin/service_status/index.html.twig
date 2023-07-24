@@ -1,0 +1,40 @@
+{% extends 'admin/dashboard/dashboard.html.twig' %}
+
+{% block title %}ServiceStatus index{% endblock %}
+
+{% block data %}
+    <h1>ServiceStatus index</h1>
+    <br><button onclick="window.location.href='{{ path('app_service_status_new') }}';" type="button" class="btn btn-primary vertical-center">Create new</button><br><br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Status</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for service_status in service_statuses %}
+            <tr>
+                <td>{{ service_status.id }}</td>
+                <td>{{ service_status.status }}</td>
+                <td>{{ service_status.createdAt ? service_status.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ service_status.updatedAt ? service_status.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_service_status_show', {'id': service_status.id}) }}">show</a>
+                    <a href="{{ path('app_service_status_edit', {'id': service_status.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_service_status_new') }}">Create new</a>
+{% endblock %}

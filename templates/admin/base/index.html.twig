@@ -1,0 +1,62 @@
+{% extends 'admin/base.html.twig' %}
+
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Create three equal columns that floats next to each other */
+    .column {
+        float: left;
+        width: 33.33%;
+        padding: 10px;
+        height: 350px; /* Should be removed. Only for demonstration */
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+        border: #0f172a;
+    }
+
+
+</style>
+
+<div class="example-wrapper">
+    <h1>Welcome to Admin</h1><br>
+
+    <div class="row">
+            <div class="card-body column" style="background-color: #aaa;">
+                <h3 class="card-title">{{ users|length }} users on site</h3>
+                <p class="card-text"><b>First created:</b></p>
+                <p class="card-text">{{ users|first }}</p>
+                <p class="card-text"><b>Last created:</b></p>
+                <p class="card-text">{{ users|last }}</p>
+                <a href="{{ path('app_user_index') }}" class="btn btn-primary">See more</a>
+            </div>
+            <div class="card-body column" style="background-color: #bbb;">
+                <h3 class="card-title">{{ services|length }} services on site</h3>
+                <p class="card-text"><b>First created:</b></p>
+                <p class="card-text">{{ services|first }}</p>
+                <p class="card-text"><b>Last created:</b></p>
+                <p class="card-text">{{ services|last }}</p>
+                <a href="{{ path('app_service_index') }}" class="btn btn-primary">See more</a>
+            </div>
+            <div class="card-body column" style="background-color: #ccc;">
+                <h3 class="card-title">{{ ratings|length }} ratings on site</h3>
+                <p class="card-text"><b>First created:</b></p>
+                <p class="card-text">{{ ratings|first[:30] ~ '...' }}</p>
+                <p class="card-text"><b>Last created:</b></p>
+                <p class="card-text">{{ ratings|last[:18] ~ '...' }}</p>
+                <a href="{{ path('app_rating_index') }}" class="btn btn-primary">See more</a>
+            </div>
+    </div>
+</div>
+{% endblock %}

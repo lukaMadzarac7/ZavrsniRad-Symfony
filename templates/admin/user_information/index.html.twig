@@ -1,0 +1,51 @@
+{% extends 'admin/dashboard/dashboard.html.twig' %}
+
+{% block title %}UserInformation index{% endblock %}
+
+{% block data %}
+    <h1>UserInformation index</h1>
+    <br><button onclick="window.location.href='{{ path('app_user_information_new') }}';" type="button" class="btn btn-primary vertical-center">Create new</button><br><br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>User</th>
+                <th>Phone_number</th>
+                <th>City</th>
+                <th>Adress</th>
+                <th>City</th>
+                <th>County</th>
+                <th>Country</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user_information in user_informations %}
+            <tr>
+                <td>{{ user_information.id }}</td>
+                <td>{{ user_information.user.name ~ " " ~ user_information.user.surname }} </td>
+                <td>{{ user_information.phoneNumber }}</td>
+                <td>{{ user_information.adress }}</td>
+                <td>{{ user_information.city.city }}</td>
+                <td>{{ user_information.county.county }}</td>
+                <td>{{ user_information.country.country }}</td>
+                <td>{{ user_information.createdAt ? user_information.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user_information.updatedAt ? user_information.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_user_information_show', {'id': user_information.id}) }}">show</a>
+                    <a href="{{ path('app_user_information_edit', {'id': user_information.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_information_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'admin/base.html.twig' %}
+
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
+        .vertical-center {
+            margin: 0;
+            position: absolute;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+    </style>
+
+    <div class="example-wrapper">
+        <h1 style="text-align: center;">Admin Dashboard</h1>
+    </div>
+
+    <div style="width: 100%;">
+        <div class="container" style="width: 10%; float: left; background: whitesmoke;">
+            <h2>Entities: </h2><br><br>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('app_city_index') }}">City</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_county_index') }}">County</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_country_index') }}">Country</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link active" href="{{ path('app_rating_index') }}">Rating</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_role_index') }}">Role</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_service_index') }}">Service</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('app_service_field_index') }}">Service Field</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_service_image_index') }}">Service Image</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_service_status_index') }}">Service Status</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('app_service_type_index') }}">Service Type</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_user_index') }}">User</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_user_information_index') }}">User Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_user_rating_index') }}">User Rating</a>
+                </li>
+
+
+            </ul>
+        </div>
+        <div style=" text-align: center; margin-left: 10%; background: lightblue;">
+            {% block data %}{% endblock %}
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
