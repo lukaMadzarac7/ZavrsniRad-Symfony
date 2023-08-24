@@ -1,11 +1,15 @@
 {% extends 'base/index.html.twig' %}
 {% block title %}Login{% endblock %}
+
+
 {% block body %}
-    <div style="margin:40px;" class="container">
+<div class="container">
+
+<div style="margin:40px;" class="container">
         <div class="row">
             <div class="login-form bg-white mt-4 p-4">
                 <form method="post" class="row g-3">
-                    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                    <h1 class="h3 mb-3 font-weight-normal">Prijavite se</h1>
 
 
                     {% if error %}
@@ -14,22 +18,23 @@
 
 
                     <div class="col-12">
-                        <label for="inputUsername">Username</label>
+                        <label for="inputUsername">Korisničko ime</label>
                         <input type="text" name="username" id="inputUsername" class="form-control" required autofocus>
                     </div>
                     <div class="col-12">
-                        <label for="inputPassword">Password</label>
+                        <label for="inputPassword">Lozinka</label>
                         <input type="password" name="password" id="inputPassword" class="form-control" required>
                     </div>
 
                     <input type = "hidden" name="_csrf_token" value = "{{ csrf_token('authenticate') }}">
                     <div class="col-12">
                         <button style="margin-top:20px;" class="btn btn-lg btn-primary float-end" type="submit">
-                            Sign in
+                            Prijava
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

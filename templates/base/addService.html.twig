@@ -1,31 +1,35 @@
 {% extends 'base/index.html.twig' %}
 
-{% block title %}Add Service{% endblock %}
+{% block title %}Nova usluga{% endblock %}
+
+
 
 {% block body %}
+<div class="container">
 
     <div style="margin:40px;">
-    <h1 style="margin-bottom: 20px;">Create new Service</h1>
+    <h1 style="margin-bottom: 20px;">Napravi novu uslugu</h1>
 
 
     {{ form_start(form) }}
-        {{ form_row(form.image) }}
-        {{ form_row(form.service_status) }}
-        {{ form_row(form.service_type) }}
-        {{ form_row(form.service_field) }}
-        {{ form_row(form.title) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.adress) }}
-        {{ form_row(form.city) }}
-        {{ form_row(form.county) }}
-        {{ form_row(form.country) }}
-        {{ form_row(form.deadline) }}
-        {{ form_row(form.price) }}
+        {{ form_row(form.image, {label: 'Slike ' }) }}
+        {{ form_row(form.service_status, {label: 'Status ' }) }}
+        {{ form_row(form.service_type, {label: 'Namjena ' }) }}
+        {{ form_row(form.service_field, {label: 'Vrsta ' }) }}
+        {{ form_row(form.title, {label: 'Naziv ' }) }}
+        {{ form_row(form.description, {label: 'Opis ' }) }}
+        {{ form_row(form.adress, {label: 'Adresa ' }) }}
+        {{ form_row(form.city, {label: 'Grad ' }) }}
+        {{ form_row(form.county, {label: 'Županija ' }) }}
+        {{ form_row(form.country, {label: 'Država ' }) }}
+        {{ form_row(form.deadline, {label: 'Rok ' }) }}
+        {{ form_row(form.price, {label: 'Cijena ' }) }}
 
 
-    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-    <a href="{{ path('app_profile', {'id' : user.id}) }}">Cancel</a>
+    <button class="btn btn-primary">{{ button_label|default('Napravi uslugu') }}</button>
+    <a href="{{ path('app_profile', {'id' : user.id}) }}">Idi nazad</a>
     {{ form_end(form) }}
 
     </div>
+</div>
 {% endblock %}

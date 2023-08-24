@@ -1,8 +1,11 @@
 {% extends 'base/index.html.twig' %}
 
 {% block title %}Moj profil{% endblock %}
+
 {% block body %}
-<div style="margin: 40px;">
+    <div class="container">
+
+    <div style="margin: 40px;">
 
     {% if profileUser.image != null %}
         {% if 'http' in profileUser.image %}
@@ -19,71 +22,75 @@
     {% endif %}
 
     {% if user == profileUser %}
-        <h1 style="margin-bottom:20px;">My Profile</h1>
+        <h1 style="margin-bottom:20px;">Moj profil</h1>
     {% else %}
-        <h1 style="margin-bottom:20px;">User's Profile</h1>
+        <h1 style="margin-bottom:20px;">Korisnički profil</h1>
     {% endif %}
     {% if ratings != null%}
-        <h4>Average rating: {{ averageRating }} / 5 stars</h4>
+        <h4>Prosječna ocjena: {{ averageRating }} / 5 &#9734; </h4>
 
     {% endif %}
 
     <table class="table">
         <tbody>
+        {% if user == profileUser %}
         <tr>
-            <th>Name</th>
+            <th>Ime</th>
             <td>{{ profileUser.name }}</td>
         </tr>
         <tr>
-            <th>Surname</th>
+            <th>Prezime</th>
             <td>{{ profileUser.surname }}</td>
         </tr>
+        {% endif %}
         {% if userInformation != null %}
-        <tr>
-            <th>Adress</th>
+        {% if user == profileUser %}
+            <tr>
+            <th>Adresa</th>
             <td>{{ userInformation.adress }}</td>
         </tr>
         <tr>
-            <th>City</th>
+            <th>Grad</th>
             <td>{{ userInformation.city }}</td>
         </tr>
         <tr>
-            <th>County</th>
+            <th>Županija</th>
             <td>{{ userInformation.county }}</td>
         </tr>
         <tr>
-            <th>Country</th>
+            <th>Država</th>
             <td>{{ userInformation.country }}</td>
         </tr>
+            {% endif %}
         <tr>
-            <th>Phone Number</th>
+            <th>Broj mobitela</th>
             <td>{{ userInformation.phoneNumber }}</td>
         </tr>
         {% endif %}
         <tr>
-            <th>Username</th>
+            <th>Korisničko ime</th>
             <td>{{ profileUser.username }}</td>
         </tr>
         <tr>
-            <th>Email</th>
+            <th>E-mail adresa</th>
             <td>{{ profileUser.email }}</td>
         </tr>
         </tbody>
     </table>
     {% if user == profileUser %}
-        <a class="btn btn-warning" href="{{ path('app_profile_user_edit') }}" role="button">Edit Profile</a>
+        <a class="btn btn-warning" href="{{ path('app_profile_user_edit') }}" role="button">Uredi profil</a>
     {% else %}
-        <a class="btn btn-secondary" href="{{ path('app_rate_user', {'id': profileUser.id}) }}" role="button">Rate User</a>
+        <a class="btn btn-secondary" href="{{ path('app_rate_user', {'id': profileUser.id}) }}" role="button">Ocijeni korisnika</a>
 
     {% endif %}
 
 
     <div style="margin-top: 40px;">
         {% if user == profileUser %}
-            <h1 style="margin-bottom: 20px;">My Services</h1>
-            <a class="btn btn-success" href="{{ path('app_service_user_new') }}" role="button" style="margin-bottom: 20px;">New Service</a>
+            <h1 style="margin-bottom: 20px;">Moje usluge</h1>
+            <a class="btn btn-success" href="{{ path('app_service_user_new') }}" role="button" style="margin-bottom: 20px;">Nova usluga</a>
         {% else %}
-            <h1 style="margin-bottom:20px;">User's Services</h1>
+            <h1 style="margin-bottom:20px;">Korisnikove usluge</h1>
         {% endif %}
 
     </div>
@@ -100,7 +107,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ service.title }}</h5>
                         <p class="card-text">{{ service.description|u.truncate(30, '...', false) }}</p>
-                        <a href="{{ path('app_service_details', {'id': service.id})}}" class="btn btn-primary">Service Details</a>
+                        <a href="{{ path('app_service_details', {'id': service.id})}}" class="btn btn-primary">Vidi detalje</a>
                     </div>
                 </div>
             </div>
@@ -110,11 +117,11 @@
     {% else %}
         {% if user == profileUser %}
             <tr>
-                <th>You have no services.</th>
+                <th>Nemate objavljene usluge.</th>
             </tr>
         {% else %}
             <tr>
-                <th>User has no services.</th>
+                <th>Korisnik nema objavljene usluge.</th>
             </tr>
 
         {% endif %}
@@ -125,9 +132,9 @@
 
     <div style="margin-top: 40px;">
         {% if user == profileUser %}
-            <h1 style="margin-bottom: 20px;">Ratings on My Services</h1>
+            <h1 style="margin-bottom: 20px;">Ocjene mojih usluga</h1>
         {% else %}
-            <h1 style="margin-bottom:20px;">Ratings on User's Services</h1>
+            <h1 style="margin-bottom:20px;">Ocjene korisnikovih usluga</h1>
         {% endif %}
 
 
@@ -140,7 +147,7 @@
                         <div class="card-body">
                             <a href="{{ path('app_profile', {'id': rating.rating.rater.id})}}" class="card-title">{{ rating.rating.rater }}</a>
                             <p class="card-text">{{ rating.rating.text }}</p>
-                            <h4 class="card-text">{{ rating.rating.ratingScore }}/5 stars</h4>
+                            <h4 class="card-text">{{ rating.rating.ratingScore }}/5 &#9734;</h4>
                             <p class="card-text"><b>Posted {{ rating.rating.createdAt ? rating.rating.createdAt|ago }}</b></p>
 
 
@@ -153,11 +160,11 @@
             {% else %}
             {% if user == profileUser %}
                 <tr>
-                    <th>You have no ratings.</th>
+                    <th>Nemate ocjena.</th>
                 </tr>
             {% else %}
                 <tr>
-                    <th>User has no ratings.</th>
+                    <th>Korisnik nema ocjena.</th>
                 </tr>
 
             {% endif %}
@@ -174,5 +181,5 @@
     </div>
 
 
-
+</div>
 {% endblock %}

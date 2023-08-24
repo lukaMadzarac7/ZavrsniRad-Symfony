@@ -1,69 +1,79 @@
 {% extends 'base/index.html.twig' %}
 
-{% block title %}Service Details{% endblock %}
+{% block title %}Detalji usluge{% endblock %}
+
+
 {% block body %}
-    <div style="margin:40px;">
-    <h1 style="margin-bottom: 20px;">Service Details</h1>
+<div class="container">
+
+<div style="margin:40px;">
+    <h1 style="margin-bottom: 20px;">Detalji usluge</h1>
 
     <table class="table">
         <tbody>
         <tr>
-            <th>Title</th>
+            <th>Naziv</th>
             <td>{{ service.title }}</td>
         </tr>
         <tr>
-            <th>Description</th>
+            <th>Opis</th>
             <td>{{ service.description }}</td>
         </tr>
         <tr>
-            <th>Service Status</th>
+            <th>Status</th>
             <td>{{ service.serviceStatus }}</td>
         </tr>
         <tr>
-            <th>Service Field</th>
+            <th>Vrsta</th>
             <td>{{ service.serviceField }}</td>
         </tr>
         <tr>
-            <th>Adress</th>
+            <th>Adresa</th>
             <td>{{ service.adress }}</td>
         </tr>
         <tr>
-            <th>City</th>
+            <th>Grad</th>
             <td>{{ service.city }}</td>
         </tr>
         <tr>
-            <th>County</th>
+            <th>Županija</th>
             <td>{{ service.county }}</td>
         </tr>
         <tr>
-            <th>Country</th>
+            <th>Država</th>
             <td>{{ service.country }}</td>
         </tr>
         <tr>
-            <th>Price</th>
+            <th>Cijena</th>
             <td>{{ service.price }} €</td>
         </tr>
         <tr>
-            <th>Deadline</th>
+            <th>Rok usluge</th>
             <td>{{ service.deadline ? service.deadline|ago }}</td>
         </tr>
         <tr>
-            <th>Posted</th>
+            <th>Objavljeno</th>
             <td>{{ service.createdAt ? service.createdAt|ago }}</td>
         </tr>
         {% if images != null %}
             <tr>
-                <th>Images</th>
+                <th>Slike</th>
 
                 <td>
                     {% for image in images %}
                         {% if 'http' in image.image %}
 
-                            <img src="{{ image.image }}" alt="Image" style="">
+                            <img src="{{ image.image }}" alt="Image"
+                                 style="object-fit:cover;
+                                            height:500px;
+                                            border: solid 1px #CCC">
 
                         {% else %}
                             {% set imgPath = 'uploads/' ~ image.image %}
-                            <img src="{{ asset(imgPath) }}" alt="Image" style="">
+                            <img src="{{ asset(imgPath) }}" alt="Image"
+                                 style="object-fit:cover;
+                                            height:500px;
+                                            border: solid 1px #CCC">
 
                         {% endif %}
 
@@ -72,10 +82,10 @@
             </tr>
         {% else %}
             <tr>
-                <th>Images</th>
+                <th>Slike</th>
 
                 <td>
-                    <p>This service has no images.</p>
+                    <p>Ova usluga nema slika.</p>
                 </td>
             </tr>
         {% endif %}
@@ -86,16 +96,16 @@
 
     {% if user != owner %}
 
-        <a class="btn btn-primary" href="{{ path('app_profile', {'id' : owner.id}) }}" role="button" style="margin-bottom: 20px;">Contact</a>
+        <a class="btn btn-primary" href="{{ path('app_profile', {'id' : owner.id}) }}" role="button" style="margin-bottom: 20px;">Kontaktiraj</a>
 
 
     {% else %}
-        <a class="btn btn-warning" href="{{ path('app_service_user_edit',  {'id': service.id})  }}" role="button">Edit Service</a>
+        <a class="btn btn-warning" href="{{ path('app_service_user_edit',  {'id': service.id})  }}" role="button">Uredi uslugu</a>
 
     {% endif %}
 
     </div>
 
-
+</div>
 
 {% endblock %}

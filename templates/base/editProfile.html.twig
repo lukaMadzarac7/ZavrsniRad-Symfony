@@ -1,10 +1,13 @@
 {% extends 'base/index.html.twig' %}
 
-{% block title %}Edit Profile Information{% endblock %}
+{% block title %}Uredi profil{% endblock %}
+
+
 
 {% block body %}
+<div class="container">
     <div style="margin:40px;">
-    <h1 style="margin-bottom:20px;">Edit Profile Information</h1>
+    <h1 style="margin-bottom:20px;">Uredi profil</h1>
 
     {{ form_start(formUser) }}
     {{ form_widget(formUser) }}
@@ -17,6 +20,7 @@
 
     </div>
 
-
+</div>
 
 {% endblock %}
+

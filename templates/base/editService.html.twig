@@ -1,24 +1,28 @@
 {% extends 'base/index.html.twig' %}
 
-{% block title %}Edit Service{% endblock %}
+{% block title %}Uredi uslugu{% endblock %}
+
 
 {% block body %}
-    <div style="margin:40px;">
-    <h1 style="margin-bottom: 20px;">Edit Service</h1>
+<div class="container">
+
+<div style="margin:40px;">
+    <h1 style="margin-bottom: 20px;">Uredi uslugu</h1>
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button style="margin-bottom: 10px; margin-top: 10px;"class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    <button style="margin-bottom: 10px; margin-top: 10px;"class="btn btn-primary">{{ button_label|default('Spremi promjene') }}</button>
     {{ form_end(form) }}
 
     <form method="post" action="{{ path('app_service_user_delete', {'id': service.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ service.id) }}">
-        <button style="margin-bottom:10px;"class="btn btn-danger">Delete</button>
+        <button style="margin-bottom:10px;"class="btn btn-danger">Izbriši uslugu</button>
     </form>
 
-    <a href="{{ path('app_profile', {'id' : user.id}) }}">Cancel</a>
+    <a href="{{ path('app_profile', {'id' : user.id}) }}">Idi nazad</a>
 
 
     </div>
+</div>
 
 {% endblock %}
