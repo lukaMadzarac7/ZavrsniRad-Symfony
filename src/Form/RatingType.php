@@ -20,11 +20,11 @@ class RatingType extends AbstractType
                 ChoiceType::class,
                 [
                     'choices' => [
-                        '1 Star' => 1,
-                        '2 Stars' => 2,
-                        '3 Stars' => 3,
-                        '4 Stars' => 4,
-                        '5 Stars' => 5,
+                        '1 zvijezda' => 1,
+                        '2 zvijezdice' => 2,
+                        '3 zvijezdice' => 3,
+                        '4 zvijezdice' => 4,
+                        '5 zvijezdica' => 5,
                     ],
                     'expanded' => true
                 ]
