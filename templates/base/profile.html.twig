@@ -9,10 +9,10 @@
 
     {% if profileUser.image != null %}
         {% if 'http' in profileUser.image %}
-            <img src="{{ profileUser.image }}" style="border-radius: 50%; margin-bottom:20px;" alt="Avatar" width="150px" height="150px">
+            <img src="{{ profileUser.image }}" style="object-fit:cover; border-radius: 50%; margin-bottom:20px;" alt="Avatar" width="150px" height="150px">
         {% else %}
             {% set imgPath = 'uploads/' ~ profileUser.image %}
-            <img src="{{ asset(imgPath) }}" style="border-radius: 50%; margin-bottom:20px;" alt="Avatar" width="150px" height="150px">
+            <img src="{{ asset(imgPath) }}" style="object-fit:cover; border-radius: 50%; margin-bottom:20px;" alt="Avatar" width="150px" height="150px">
 
         {% endif %}
 
@@ -145,10 +145,10 @@
                 <div class="col-sm-4">
                     <div class="card mb-4">
                         <div class="card-body">
-                            <a href="{{ path('app_profile', {'id': rating.rating.rater.id})}}" class="card-title">{{ rating.rating.rater }}</a>
+                            <a href="{{ path('app_profile', {'id': rating.rating.rater.id})}}" class="card-title">{{ rating.rating.rater.username }}</a>
                             <p class="card-text">{{ rating.rating.text }}</p>
                             <h4 class="card-text">{{ rating.rating.ratingScore }}/5 &#9734;</h4>
-                            <p class="card-text"><b>Posted {{ rating.rating.createdAt ? rating.rating.createdAt|ago }}</b></p>
+                            <p class="card-text"><b>Objavljeno {{ rating.rating.createdAt ? rating.rating.createdAt|date("d.m.20y.") }}</b></p>
 
 
                         </div>
