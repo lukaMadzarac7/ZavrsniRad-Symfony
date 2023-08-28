@@ -188,8 +188,8 @@
                                         <div class="card-body">
                                             <h5 class="card-title">{{ service.title }}</h5>
                                             <p class="card-text">{{ service.description|u.truncate(50, '...', false) }}</p>
-                                            <p class="card-text"><b>Price: </b>{{ service.price }} €</p>
-                                            <p class="card-text"><b>Ends {{ service.deadline ? service.deadline|ago }}</b></p>
+                                            <p class="card-text"><b>Cijena: </b>{{ service.price }} €</p>
+                                            <p class="card-text"><b>Traje do: {{ service.deadline ? service.deadline|date("d.m.20y.") }}</b></p>
 
                                             <a href="{{ path('app_service_details', {'id': service.id})}}" class="btn btn-primary">Vidi detalje</a>
                                         </div>
@@ -231,8 +231,8 @@
                                         <div class="card-body">
                                             <h5 class="card-title">{{ service.title }}</h5>
                                             <p class="card-text">{{ service.description|u.truncate(50, '...', false) }}</p>
-                                            <p class="card-text"><b>Price: </b>{{ service.price }} €</p>
-                                            <p class="card-text"><b>Ends {{ service.deadline ? service.deadline|ago }}</b></p>
+                                            <p class="card-text"><b>Cijena: </b>{{ service.price }} €</p>
+                                            <p class="card-text"><b>Traje do: {{ service.deadline ? service.deadline|date("d.m.20y.") }}</b></p>
 
                                             <a href="{{ path('app_service_details', {'id': service.id})}}" class="btn btn-primary">Vidi detalje</a>
                                         </div>
