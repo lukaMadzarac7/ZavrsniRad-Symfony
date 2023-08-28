@@ -49,11 +49,11 @@
         </tr>
         <tr>
             <th>Rok usluge</th>
-            <td>{{ service.deadline ? service.deadline|ago }}</td>
+            <td>{{ service.deadline ? service.deadline|date("d.m.20y.") }}</td>
         </tr>
         <tr>
             <th>Objavljeno</th>
-            <td>{{ service.createdAt ? service.createdAt|ago }}</td>
+            <td>{{ service.createdAt ? service.createdAt|date("d.m.20y.") }}</td>
         </tr>
         {% if images != null %}
             <tr>
