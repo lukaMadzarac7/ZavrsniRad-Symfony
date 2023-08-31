@@ -20,8 +20,6 @@ class ServiceUserEditType extends AbstractType
             ->add('description')
             ->add('adress')
             ->add('city')
-            ->add('county')
-            ->add('country')
             ->add('deadline')
             ->add('price')
             ->add('image', FileType::class, [

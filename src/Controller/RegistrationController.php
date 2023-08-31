@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\UserInformation;
 use App\Form\RegistrationFormType;
 use App\Form\UserInformationFormType;
+use App\Repository\CountryRepository;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Sluggable\Util\Urlizer;
@@ -20,7 +21,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, CountryRepository $countryRepository): Response
     {
         $user = new User();
         $userInformation = new UserInformation();
@@ -33,6 +34,10 @@ class RegistrationController extends AbstractController
         if ($formUser->isSubmitted() && $formUser->isValid() && $formUserInfo->isSubmitted() && $formUserInfo->isValid()) {
             // encode the plain password
             $user->setRole(4);
+            $userInformation->setCity($formUserInfo->get('city')->getData());
+            $userInformation->setCounty($userInformation->getCity()->getCounty());
+            $country = $countryRepository->findOneBy(array('country' => 'Hrvatska'));
+            $userInformation->setCountry($country);
             $user->setCreatedAt(new \DateTime());
             $user->setPassword(
                 $userPasswordHasher->hashPassword(

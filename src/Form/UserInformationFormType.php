@@ -21,8 +21,6 @@ class UserInformationFormType extends AbstractType
             ->add('phone_number')
             ->add('adress')
             ->add('city')
-            ->add('county')
-            ->add('country')
         ;
     }
 

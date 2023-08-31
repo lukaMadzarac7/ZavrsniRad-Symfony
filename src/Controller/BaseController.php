@@ -18,6 +18,7 @@ use App\Form\UserInformationType;
 use App\Form\UserRatingType;
 use App\Form\UserType;
 use App\Repository\CityRepository;
+use App\Repository\CountryRepository;
 use App\Repository\CountyRepository;
 use App\Repository\RatingRepository;
 use App\Repository\ServiceFieldRepository;
@@ -121,7 +122,7 @@ class BaseController extends AbstractController
     }
 
     #[Route('/service/new', name: 'app_service_user_new', methods: ['GET', 'POST'])]
-    public function new_service(ServiceImageRepository $serviceImageRepository, Request $request, ServiceRepository $serviceRepository): Response
+    public function new_service(ServiceImageRepository $serviceImageRepository, Request $request, ServiceRepository $serviceRepository, CountryRepository $countryRepository): Response
     {
         /** @var UploadedFile $uploadedFile */
 
@@ -141,6 +142,11 @@ class BaseController extends AbstractController
             $service->setCreatedAt($currentDate);
             $service->setUpdatedAt($currentDate);
             $service->setValidTill($currentDate->modify('+30 day'));
+
+            $service->setCity($formService->get('city')->getData());
+            $service->setCounty($service->getCity()->getCounty());
+            $country = $countryRepository->findOneBy(array('country' => 'Hrvatska'));
+            $service->setCountry($country);
 
             $serviceRepository->save($service, true);
 
@@ -175,7 +181,7 @@ class BaseController extends AbstractController
     }
 
     #[Route('service/{id}/edit', name: 'app_service_user_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
-    public function edit_service(Request $request, Service $service, ServiceImageRepository $serviceImageRepository, ServiceRepository $serviceRepository): Response
+    public function edit_service(Request $request, Service $service, ServiceImageRepository $serviceImageRepository, ServiceRepository $serviceRepository, CountryRepository $countryRepository): Response
     {
         $securityContext = $this->container->get('security.authorization_checker');
         $user = $this->security->getUser(); // null or UserInterface, if logged in
@@ -186,6 +192,10 @@ class BaseController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $service->setUpdater($user);
                 $service->setUpdatedAt(new \DateTime());
+                $service->setCity($form->get('city')->getData());
+                $service->setCounty($service->getCity()->getCounty());
+                $country = $countryRepository->findOneBy(array('country' => 'Hrvatska'));
+                $service->setCountry($country);
 
                 $serviceRepository->save($service, true);
 
@@ -254,7 +264,7 @@ class BaseController extends AbstractController
 
 
     #[Route('/profile/edit', name: 'app_profile_user_edit', methods: ['GET', 'POST'])]
-    public function edit_profile(Request $request, UserRepository $userRepository, UserInformationRepository $userInformationRepository): Response
+    public function edit_profile(Request $request, UserRepository $userRepository, UserInformationRepository $userInformationRepository, CountryRepository $countryRepository): Response
     {
         $user = $this->security->getUser(); // null or UserInterface, if logged in
         $userInformation = $userInformationRepository->findOneBy(array('user' => $user));
@@ -277,7 +287,10 @@ class BaseController extends AbstractController
                     $newFilename
                 );
             }
-
+            $userInformation->setCity($formUserInfo->get('city')->getData());
+            $userInformation->setCounty($userInformation->getCity()->getCounty());
+            $country = $countryRepository->findOneBy(array('country' => 'Hrvatska'));
+            $userInformation->setCountry($country);
             $password = $formUser["plainPassword"]->getData();
             $hashedPassword = password_hash( $password, PASSWORD_DEFAULT);
             $user->setPassword($hashedPassword);
