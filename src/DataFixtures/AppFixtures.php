@@ -32,7 +32,9 @@ class AppFixtures extends Fixture
     {
         //Redovni podaci//
 
-        ServiceStatusFactory::new()->createMany(5);
+        ServiceStatusFactory::createOne(['status' => 'Dostupno']);
+        ServiceStatusFactory::createOne(['status' => 'Nedostupno']);
+        ServiceStatusFactory::createOne(['status' => 'Privremeno nedostupno']);
         ServiceFieldFactory::new()->createMany(5);
         CountyFactory::new()->createMany(5);
         CountryFactory::new()->createMany(5);
