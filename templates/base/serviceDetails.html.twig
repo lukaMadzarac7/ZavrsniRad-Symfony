@@ -57,23 +57,29 @@
         </tr>
         {% if images != null %}
             <tr>
-                <th>Slike</th>
+                <th></th>
 
                 <td>
                     {% for image in images %}
                         {% if 'http' in image.image %}
-
+                    <div style="margin-top: 25px;">
                             <img src="{{ image.image }}" alt="Image"
                                  style="object-fit:cover;
                                             height:500px;
-                                            border: solid 1px #CCC">
+                                            border: solid 2px #CCC">
+                    </div>
 
                         {% else %}
                             {% set imgPath = 'uploads/' ~ image.image %}
-                            <img src="{{ asset(imgPath) }}" alt="Image"
-                                 style="object-fit:cover;
+                            <div style="margin-top: 25px;">
+                                <img src="{{ asset(imgPath) }}" alt="Image"
+                                     style="object-fit:cover;
                                             height:500px;
-                                            border: solid 1px #CCC">
+                                            border: solid 2px #CCC">
+
+                            </div>
+
+
 
                         {% endif %}
 
