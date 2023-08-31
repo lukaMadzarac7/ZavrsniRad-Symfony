@@ -101,12 +101,19 @@
     <div class="row" style="margin-top: 10px;">
     {% if services is not empty %}
         {% for service in services %}
-            {% if service.serviceStatus != 'Nije dostupno' %}
+            {% if service.serviceStatus != 'Nedostupno' %}
                 <div class="col-sm-4">
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">{{ service.title }}</h5>
                             <p class="card-text">{{ service.description|u.truncate(30, '...', false) }}</p>
+                            {% if service.serviceStatus == 'Dostupno' %}
+                                <p style = "color:green;" class="card-text">Dostupno</p>
+                            {% else %}
+                                {% if service.serviceStatus == 'Privremeno nedostupno' %}
+                                <p style = "color:darkgoldenrod;" class="card-text">Privremeno nedostupno</p>
+                                {% endif %}
+                            {% endif %}
                             <a href="{{ path('app_service_details', {'id': service.id})}}" class="btn btn-primary">Vidi detalje</a>
                         </div>
                     </div>
@@ -118,7 +125,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ service.title }}</h5>
                                 <p class="card-text">{{ service.description|u.truncate(30, '...', false) }}</p>
-                                <p style = "color:red;" class="card-text">Usluga je nedostupna!</p>
+                                <p style = "color:red;" class="card-text">Nedostupno</p>
                                 <a href="{{ path('app_service_details', {'id': service.id})}}" class="btn btn-primary">Vidi detalje</a>
                             </div>
                         </div>

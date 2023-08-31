@@ -154,7 +154,7 @@
                     <div id="tab-1" class="tab-pane fade show p-0 active">
                         <div class="row">
                             {% for service in services %}
-                            {% if service.serviceType == '1' and service.serviceStatus != 'Nije dostupno' %}
+                            {% if service.serviceType == '1' and service.serviceStatus != 'Nedostupno' %}
 
                                 <div class="col-sm-6">
                                     <div class="card mb-4">
@@ -189,7 +189,13 @@
                                             <h5 class="card-title">{{ service.title }}</h5>
                                             <p class="card-text">{{ service.description|u.truncate(50, '...', false) }}</p>
                                             <p class="card-text"><b>Cijena: </b>{{ service.price }} €</p>
-                                            <p class="card-text"><b>Traje do: {{ service.deadline ? service.deadline|date("d.m.20y.") }}</b></p>
+                                            {% if service.serviceStatus == 'Dostupno' %}
+                                                <p style = "color:green;" class="card-text"><b>Dostupno do: {{ service.deadline ? service.deadline|date("d.m.20y.") }}</b></p>
+                                            {% else %}
+                                                {% if service.serviceStatus == 'Privremeno nedostupno' %}
+                                                    <p style = "color:darkgoldenrod;" class="card-text"><b>Privremeno nedostupno</b></p>
+                                                {% endif %}
+                                            {% endif %}
 
                                             <a href="{{ path('app_service_details', {'id': service.id})}}" class="btn btn-primary">Vidi detalje</a>
                                         </div>
@@ -206,7 +212,7 @@
 
 
                         {% for service in services %}
-                            {% if service.serviceType == '2' and service.serviceStatus != 'Nije dostupno' %}
+                            {% if service.serviceType == '2' and service.serviceStatus != 'Nedostupno' %}
 
                                 <div class="col-sm-6">
                                     <div class="card mb-4">
@@ -232,7 +238,13 @@
                                             <h5 class="card-title">{{ service.title }}</h5>
                                             <p class="card-text">{{ service.description|u.truncate(50, '...', false) }}</p>
                                             <p class="card-text"><b>Cijena: </b>{{ service.price }} €</p>
-                                            <p class="card-text"><b>Traje do: {{ service.deadline ? service.deadline|date("d.m.20y.") }}</b></p>
+                                            {% if service.serviceStatus == 'Dostupno' %}
+                                                <p style = "color:green;" class="card-text"><b>Dostupno do: {{ service.deadline ? service.deadline|date("d.m.20y.") }}</b></p>
+                                            {% else %}
+                                                {% if service.serviceStatus == 'Privremeno nedostupno' %}
+                                                    <p style = "color:darkgoldenrod;" class="card-text"><b>Privremeno nedostupno</b></p>
+                                                {% endif %}
+                                            {% endif %}
 
                                             <a href="{{ path('app_service_details', {'id': service.id})}}" class="btn btn-primary">Vidi detalje</a>
                                         </div>
