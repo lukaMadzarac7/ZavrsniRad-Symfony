@@ -31,6 +31,7 @@ class CountyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $county->setCreatedAt(new \DateTime());
             $county->setUpdatedAt(new \DateTime());
+            $county->setEnabled(1);
             $countyRepository->save($county, true);
 
             return $this->redirectToRoute('app_county_index', [], Response::HTTP_SEE_OTHER);
