@@ -10,7 +10,16 @@
     <h1 style="margin-bottom: 20px;">Uredi uslugu</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.image, {label: 'Dodaj sliku ' }) }}
+    {{ form_row(form.service_status, {label: 'Status ' }) }}
+    {{ form_row(form.service_type, {label: 'Namjena (Nudim -> 1, Tražim -> 2)   ' }) }}
+    {{ form_row(form.service_field, {label: 'Vrsta ' }) }}
+    {{ form_row(form.title, {label: 'Naziv ' }) }}
+    {{ form_row(form.description, {label: 'Opis ' }) }}
+    {{ form_row(form.adress, {label: 'Adresa ' }) }}
+    {{ form_row(form.city, {label: 'Grad ' }) }}
+    {{ form_row(form.deadline, {label: 'Rok ' }) }}
+    {{ form_row(form.price, {label: 'Cijena ' }) }}
     <button style="margin-bottom: 10px; margin-top: 10px;"class="btn btn-primary">{{ button_label|default('Spremi promjene') }}</button>
     {{ form_end(form) }}
 

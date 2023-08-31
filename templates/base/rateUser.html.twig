@@ -10,7 +10,8 @@
     <h1 style="margin-bottom:20px;">Ocijeni {{ rated.username }}</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.text, {label: 'Razlog ' }) }}
+    {{ form_row(form.rating_score, {label: 'Ocjena ' }) }}
     <button class="btn btn-primary">{{ button_label|default('Ocijeni') }}</button>
     <a href="{{ path('app_profile', {'id' : user.id}) }}">Idi nazad</a>
     {{ form_end(form) }}
