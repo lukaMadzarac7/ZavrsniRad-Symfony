@@ -8,6 +8,7 @@ use App\Entity\ServiceField;
 use App\Entity\ServiceImage;
 use App\Entity\User;
 use App\Entity\UserRating;
+use App\Form\EditProfileType;
 use App\Form\RatingType;
 use App\Form\RegistrationFormType;
 use App\Form\ServiceImageType;
@@ -270,7 +271,7 @@ class BaseController extends AbstractController
     {
         $user = $this->security->getUser(); // null or UserInterface, if logged in
         $userInformation = $userInformationRepository->findOneBy(array('user' => $user));
-        $formUser = $this->createForm(RegistrationFormType::class, $user);
+        $formUser = $this->createForm(EditProfileType::class, $user);
         $formUserInfo = $this->createForm(UserInformationFormType::class, $userInformation);
         $formUser->handleRequest($request);
         $formUserInfo->handleRequest($request);
@@ -294,8 +295,10 @@ class BaseController extends AbstractController
             $country = $countryRepository->findOneBy(array('country' => 'Hrvatska'));
             $userInformation->setCountry($country);
             $password = $formUser["plainPassword"]->getData();
-            $hashedPassword = password_hash( $password, PASSWORD_DEFAULT);
-            $user->setPassword($hashedPassword);
+            if ($password != null){
+                $hashedPassword = password_hash( $password, PASSWORD_DEFAULT);
+                $user->setPassword($hashedPassword);
+            }
             $user->setUpdatedAt(new \DateTime());
             $userInformation->setUpdatedAt(new \DateTime());
             $userRepository->save($user, true);
