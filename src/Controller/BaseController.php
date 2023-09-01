@@ -24,6 +24,7 @@ use App\Repository\RatingRepository;
 use App\Repository\ServiceFieldRepository;
 use App\Repository\ServiceImageRepository;
 use App\Repository\ServiceRepository;
+use App\Repository\ServiceTypeRepository;
 use App\Repository\UserInformationRepository;
 use App\Repository\UserRatingRepository;
 use App\Repository\UserRepository;
@@ -181,7 +182,7 @@ class BaseController extends AbstractController
     }
 
     #[Route('service/{id}/edit', name: 'app_service_user_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
-    public function edit_service(Request $request, Service $service, ServiceImageRepository $serviceImageRepository, ServiceRepository $serviceRepository, CountryRepository $countryRepository): Response
+    public function edit_service(Request $request, Service $service, ServiceImageRepository $serviceImageRepository, ServiceRepository $serviceRepository, CountryRepository $countryRepository, ServiceTypeRepository $serviceTypeRepository): Response
     {
         $securityContext = $this->container->get('security.authorization_checker');
         $user = $this->security->getUser(); // null or UserInterface, if logged in
@@ -190,6 +191,7 @@ class BaseController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+
                 $service->setUpdater($user);
                 $service->setUpdatedAt(new \DateTime());
                 $service->setCity($form->get('city')->getData());

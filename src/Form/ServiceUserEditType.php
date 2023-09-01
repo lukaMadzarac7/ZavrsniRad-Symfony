@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Service;
+use App\Repository\ServiceTypeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -14,7 +15,6 @@ class ServiceUserEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
             ->add('service_type')
             ->add('service_status')
             ->add('service_field')
