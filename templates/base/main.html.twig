@@ -169,7 +169,7 @@
                     <div id="tab-1" class="tab-pane fade show p-0 active">
                         <div class="row">
                             {% for service in services %}
-                            {% if service.serviceType == '1' and service.serviceStatus != 'Nedostupno' %}
+                            {% if service.serviceType == '1' and service.serviceStatus != 'Nedostupno' and service.deadline|date('U') >= "now"|date('U') %}
 
                                 <div class="col-sm-6">
                                     <div class="card mb-4">
@@ -227,7 +227,7 @@
 
 
                         {% for service in services %}
-                            {% if service.serviceType == '2' and service.serviceStatus != 'Nedostupno' %}
+                            {% if service.serviceType == '2' and service.serviceStatus != 'Nedostupno' and service.deadline|date('U') >= "now"|date('U') %}
 
                                 <div class="col-sm-6">
                                     <div class="card mb-4">
