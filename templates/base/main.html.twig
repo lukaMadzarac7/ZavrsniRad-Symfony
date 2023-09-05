@@ -235,10 +235,18 @@
                                             {% set break = false %}
                                             {% for image in service.serviceImages %}
                                                 {% if not break %}
-                                                    <img class="card-img-top" src="{{ image.image }}"
-                                                         style="object-fit:cover;
+                                                    {% if 'http' in image.image %}
+                                                        <img class="card-img-top" src="{{ image.image }}"
+                                                             style="object-fit:cover;
                                             height:250px;
                                             border: solid 1px #CCC"alt="Card image cap">
+                                                    {% else %}
+                                                        {% set imgPath = 'uploads/' ~ image.image %}
+                                                        <img class="card-img-top" src="{{ asset(imgPath) }}"
+                                                             style="object-fit:cover;
+                                            height:250px;
+                                            border: solid 1px #CCC"alt="Card image cap">
+                                                    {% endif %}
                                                     {% set break = true %}
                                                 {% endif %}
                                             {% endfor %}
