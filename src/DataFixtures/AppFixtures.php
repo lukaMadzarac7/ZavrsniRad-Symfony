@@ -19,7 +19,9 @@ use App\Factory\ServiceTypeFactory;
 use App\Factory\UserFactory;
 use App\Factory\UserInformationFactory;
 use App\Factory\UserRatingFactory;
+use App\Repository\CountyRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\User;
 use App\Entity\Role;
@@ -30,15 +32,60 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        //Redovni podaci//
+
+        //Svi statuse usluga//
 
         ServiceStatusFactory::createOne(['status' => 'Dostupno']);
         ServiceStatusFactory::createOne(['status' => 'Nedostupno']);
         ServiceStatusFactory::createOne(['status' => 'Privremeno nedostupno']);
-        ServiceFieldFactory::new()->createMany(5);
-        CountyFactory::new()->createMany(5);
-        CountryFactory::new()->createMany(5);
 
+        //Sve vrste usluga//
+
+        ServiceFieldFactory::createOne(['field' => 'Web development']);
+        ServiceFieldFactory::createOne(['field' => 'Android Development']);
+        ServiceFieldFactory::createOne(['field' => 'iOS Development']);
+        ServiceFieldFactory::createOne(['field' => 'Izrada računalnih programa']);
+        ServiceFieldFactory::createOne(['field' => 'Glazbena produkcija']);
+        ServiceFieldFactory::createOne(['field' => 'Slikarstvo']);
+        ServiceFieldFactory::createOne(['field' => 'Fotografiranje']);
+        ServiceFieldFactory::createOne(['field' => 'Pedikura']);
+        ServiceFieldFactory::createOne(['field' => 'Manikura']);
+        ServiceFieldFactory::createOne(['field' => 'Šminkanje']);
+        ServiceFieldFactory::createOne(['field' => 'Organizacija prigoda']);
+        ServiceFieldFactory::createOne(['field' => 'Dizajniranje interijera']);
+        ServiceFieldFactory::createOne(['field' => 'Živa glazba']);
+        ServiceFieldFactory::createOne(['field' => 'Iznajmljivanje vozila']);
+        ServiceFieldFactory::createOne(['field' => 'Instrukcije za osnovne škole']);
+        ServiceFieldFactory::createOne(['field' => 'Instrukcije za srednje škole']);
+        ServiceFieldFactory::createOne(['field' => 'Instrukcije za fakultete']);
+        ServiceFieldFactory::createOne(['field' => 'Glazbene instrukcije']);
+        ServiceFieldFactory::createOne(['field' => 'Umjetničke instrukcije']);
+        ServiceFieldFactory::createOne(['field' => 'Sportske instrukcije']);
+        ServiceFieldFactory::createOne(['field' => 'Jezične instrukcije']);
+        ServiceFieldFactory::createOne(['field' => 'Ostale instrukcije']);
+        ServiceFieldFactory::createOne(['field' => 'Briga o kućnim ljubimcima']);
+        ServiceFieldFactory::createOne(['field' => 'Arhitektonske usluge']);
+        ServiceFieldFactory::createOne(['field' => 'Majstorske usluge']);
+        ServiceFieldFactory::createOne(['field' => 'Usluge dadilje']);
+        ServiceFieldFactory::createOne(['field' => 'Usluge šišanja']);
+        ServiceFieldFactory::createOne(['field' => 'Servisiranje elektroničkih uređaja']);
+        ServiceFieldFactory::createOne(['field' => 'Servisiranje glazbala']);
+        ServiceFieldFactory::createOne(['field' => 'Kućanske usluge']);
+        ServiceFieldFactory::createOne(['field' => 'Krojačke usluge']);
+        ServiceFieldFactory::createOne(['field' => 'Vodoinstalaterstvo']);
+        ServiceFieldFactory::createOne(['field' => 'Elektroinstalaterstvo']);
+        ServiceFieldFactory::createOne(['field' => 'Keramičke usluge']);
+        ServiceFieldFactory::createOne(['field' => 'Stolarske usluge']);
+        ServiceFieldFactory::createOne(['field' => 'Soboslikanje']);
+        ServiceFieldFactory::createOne(['field' => 'Ostale građevinske usluge']);
+        ServiceFieldFactory::createOne(['field' => 'Ostale nekategorizirane usluge']);
+        ServiceFieldFactory::createOne(['field' => 'Soboslikanje']);
+
+        //Početni county i country//
+        CountyFactory::new()->createOne();
+        CountryFactory::new()->createOne();
+
+        //Tipovi usluga//
         ServiceTypeFactory::createOne([
             'type' => 1,
         ]);
@@ -46,15 +93,15 @@ class AppFixtures extends Fixture
             'type' => 2,
         ]);
 
-
-        CityFactory::createMany(5, function() {
+        //Početni gradovi
+        CityFactory::createMany(2, function() {
             return [
                 'county' => CountyFactory::random(),
             ];
 
         });
 
-
+        //Sve uloge//
         $role1 = new Role();
         $role1->setRole("ROLE_ADMIN");
         $role2 = new Role();
@@ -68,14 +115,13 @@ class AppFixtures extends Fixture
         $manager->persist($role2);
         $manager->persist($role3);
         $manager->persist($role4);
-
         $manager->flush();
 
         //---//
-
         //UserFactory::new()->createMany(25);
 
-        UserInformationFactory::createMany(35, function() {
+        //Stvaranje nekoliko početnih korisnika//
+        UserInformationFactory::createMany(15, function() {
             return [
                 'user' => UserFactory::createOne(),
                 'city' => CityFactory::random(),
@@ -86,10 +132,8 @@ class AppFixtures extends Fixture
 
         });
 
-        #ako se ukljuce ove linije nece se izgenerirati nista iz ovog file-a, kad se maknu sve normalno radi
-        #takoder javlja error da ne postoji creator_at u serviceu kad zelis novi service izraditi
-        #sve migracije runnane
-        ServiceFactory::createMany(35, function() {
+        //Stvaranje početnih usluga//
+        ServiceFactory::createMany(50, function() {
             return [
                 'owner' => UserFactory::random(),
                 'creator' => UserFactory::random(),
@@ -105,34 +149,24 @@ class AppFixtures extends Fixture
 
         });
 
+        //Za random slike usluga//
 
-        ServiceImageFactory::createMany(20, function() {
-            return [
-                'service' => ServiceFactory::random(),
-                'image' => 'https://picsum.photos/200/300',
-            ];
+        //ServiceImageFactory::createMany(20, function() {
+        //    return [
+        //        'service' => ServiceFactory::random(),
+        //        'image' => 'https://picsum.photos/200/300',
+        //    ];
+        //});
 
-        });
-
-
-
-        /* Faker ne kuzi kako raditi OneToOne objekte
-        ServiceImageFactory::createMany(20, function() {
-            return [
-                'service' => ServiceFactory::random(),
-            ];
-
-        });
-        */
-
-
-        RatingFactory::createMany(35, function() {
+        //Stvaranje ratinga//
+        RatingFactory::createMany(60, function() {
             return [
                 'rater' => UserFactory::random(),
             ];
 
         });
 
+        //Stvaranje relacije ratinga//
         UserRatingFactory::createMany(35, function() {
             return [
                 'user' => UserFactory::random(),
@@ -142,7 +176,6 @@ class AppFixtures extends Fixture
 
         });
 
-
-
     }
+
 }
