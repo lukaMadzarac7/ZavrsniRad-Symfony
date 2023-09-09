@@ -3,11 +3,11 @@
 
 {% block body %}
     <script>
-        function changeButtons(){
+        function changeButtons(type){
             var nudim = document.getElementById("nudim");
             var trazim = document.getElementById("trazim");
 
-            if(nudim.classList.contains("btn-primary")){
+            if(type == 'trazim'){
                 nudim.classList.remove("btn-primary");
                 nudim.classList.add("btn-secondary");
                 trazim.classList.remove("btn-secondary");
@@ -86,12 +86,12 @@
                 <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
                     <li class="nav-item">
                         <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1" style="text-decoration:none" >
-                            <button id="nudim" onclick="changeButtons();" type="button" class="btn btn-primary">Nudi se</button>
+                            <button id="nudim" onclick="changeButtons('nudim');" type="button" class="btn btn-primary">Nudi se</button>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2" style="text-decoration:none" >
-                            <button id="trazim" onclick="changeButtons();" type="button" class="btn btn-secondary">Traži se</button>
+                            <button id="trazim" onclick="changeButtons('trazim');" type="button" class="btn btn-secondary">Traži se</button>
                         </a>
                     </li>
                 </ul>
