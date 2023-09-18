@@ -256,7 +256,7 @@ class BaseController extends AbstractController
                 $numOfImages = $numOfImages - 1;
             }
         }
-        
+
         if($user == $service->getOwner() or $securityContext->isGranted('ROLE_ADMIN')) {
                 if ($this->isCsrfTokenValid('delete' . $service->getId(), $request->request->get('_token'))) {
                     $serviceRepository->remove($service, true);
