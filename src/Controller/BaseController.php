@@ -243,10 +243,20 @@ class BaseController extends AbstractController
     }
 
     #[Route('service/{id}/delete', name: 'app_service_user_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
-    public function delete_service(Request $request, Service $service, ServiceRepository $serviceRepository): Response
+    public function delete_service(Request $request, Service $service, ServiceRepository $serviceRepository, ServiceImageRepository $imageRepository): Response
     {
         $securityContext = $this->container->get('security.authorization_checker');
         $user = $this->security->getUser(); // null or UserInterface, if logged in
+        $images = $imageRepository->findBy(array('service' => $service));
+        if($images!= null){
+            $numOfImages = count($images);
+            $numOfImages = $numOfImages - 1;
+            while($numOfImages>=0){
+                $imageRepository->remove($images[$numOfImages]);
+                $numOfImages = $numOfImages - 1;
+            }
+        }
+        
         if($user == $service->getOwner() or $securityContext->isGranted('ROLE_ADMIN')) {
                 if ($this->isCsrfTokenValid('delete' . $service->getId(), $request->request->get('_token'))) {
                     $serviceRepository->remove($service, true);
