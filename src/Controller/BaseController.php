@@ -183,11 +183,11 @@ class BaseController extends AbstractController
     }
 
     #[Route('service/{id}/edit', name: 'app_service_user_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
-    public function edit_service(Request $request, Service $service, ServiceImageRepository $serviceImageRepository, ServiceRepository $serviceRepository, CountryRepository $countryRepository, ServiceTypeRepository $serviceTypeRepository): Response
+    public function edit_service(Request $request, Service $service, ServiceImageRepository $serviceImageRepository, ServiceRepository $serviceRepository, CountryRepository $countryRepository, ServiceTypeRepository $serviceTypeRepository, ServiceFieldRepository $serviceFieldRepository, CityRepository $cityRepository, CountyRepository $countyRepository): Response
     {
         $securityContext = $this->container->get('security.authorization_checker');
         $user = $this->security->getUser(); // null or UserInterface, if logged in
-        if($user == $service->getOwner() or $securityContext->isGranted('ROLE_ADMIN')){
+        if($user == $service->getOwner() or $securityContext->isGranted('ROLE_ADMIN') or $securityContext->isGranted('ROLE_EDITOR')){
             $form = $this->createForm(ServiceUserEditType::class, $service);
             $form->handleRequest($request);
 
@@ -233,11 +233,25 @@ class BaseController extends AbstractController
 
         }else{
             $services = $serviceRepository->findAll();
+            $selectedCity = null;
+            $selectedCounty = null;
+            $selectedField = null;
+            $serviceFields = $serviceFieldRepository->findAll();
+            $counties = $countyRepository->findAll();
+            $cities = $cityRepository->findAll();
+            
             return $this->render('base/main.html.twig', [
                 'services' => $services,
                 'user' => $user,
+                'serviceFields' => $serviceFields,
+                'cities' => $cities,
+                'counties' => $counties,
+                'selectedField' => $selectedField,
+                'selectedCity' => $selectedCity,
+                'selectedCounty' => $selectedCounty
 
             ]);
+
         }
 
     }
