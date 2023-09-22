@@ -115,8 +115,12 @@
 
 
     {% if user != owner %}
-
-        <a class="btn btn-primary" href="{{ path('app_profile', {'id' : owner.id}) }}" role="button" style="margin-bottom: 20px;">Kontaktiraj</a>
+        {% if customEdit %}
+            <a class="btn btn-primary" href="{{ path('app_profile', {'id' : owner.id}) }}" role="button" style="margin-bottom: 20px;">Kontaktiraj</a><br>
+            <a class="btn btn-warning" href="{{ path('app_service_user_edit',  {'id': service.id})  }}" role="button">Uredi korisnikovu uslugu</a>
+        {% else %}
+            <a class="btn btn-primary" href="{{ path('app_profile', {'id' : owner.id}) }}" role="button" style="margin-bottom: 20px;">Kontaktiraj</a>
+        {% endif %}
 
 
     {% else %}

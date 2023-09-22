@@ -187,7 +187,17 @@ class BaseController extends AbstractController
     {
         $securityContext = $this->container->get('security.authorization_checker');
         $user = $this->security->getUser(); // null or UserInterface, if logged in
-        if($user == $service->getOwner() or $securityContext->isGranted('ROLE_ADMIN') or $securityContext->isGranted('ROLE_EDITOR')){
+        $owner = $service->getOwner();
+        $customEdit = false;
+        $customDelete = false;
+        if($securityContext->isGranted('ROLE_ADMIN') or $securityContext->isGranted('ROLE_EDITOR') or $user->getUserIdentifier() == $owner->getUserIdentifier()){
+            $customEdit = true;
+            if ($securityContext->isGranted('ROLE_ADMIN') or $user->getUserIdentifier() == $owner->getUserIdentifier()){
+                $customDelete = true;
+            }
+        }
+
+        if($user == $service->getOwner() or $customEdit){
             $form = $this->createForm(ServiceUserEditType::class, $service);
             $form->handleRequest($request);
 
@@ -229,6 +239,8 @@ class BaseController extends AbstractController
                 'service' => $service,
                 'form' => $form,
                 'user' => $user,
+                'customDelete' => $customDelete
+
             ]);
 
         }else{
@@ -239,7 +251,7 @@ class BaseController extends AbstractController
             $serviceFields = $serviceFieldRepository->findAll();
             $counties = $countyRepository->findAll();
             $cities = $cityRepository->findAll();
-            
+
             return $this->render('base/main.html.twig', [
                 'services' => $services,
                 'user' => $user,
@@ -248,7 +260,7 @@ class BaseController extends AbstractController
                 'counties' => $counties,
                 'selectedField' => $selectedField,
                 'selectedCity' => $selectedCity,
-                'selectedCounty' => $selectedCounty
+                'selectedCounty' => $selectedCounty,
 
             ]);
 
@@ -257,7 +269,7 @@ class BaseController extends AbstractController
     }
 
     #[Route('service/{id}/delete', name: 'app_service_user_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
-    public function delete_service(Request $request, Service $service, ServiceRepository $serviceRepository, ServiceImageRepository $imageRepository): Response
+    public function delete_service(Request $request, Service $service, ServiceRepository $serviceRepository, ServiceImageRepository $imageRepository, ServiceFieldRepository $serviceFieldRepository, CityRepository $cityRepository, CountyRepository $countyRepository): Response
     {
         $securityContext = $this->container->get('security.authorization_checker');
         $user = $this->security->getUser(); // null or UserInterface, if logged in
@@ -276,12 +288,27 @@ class BaseController extends AbstractController
                     $serviceRepository->remove($service, true);
                 }
         }else{
-                $services = $serviceRepository->findAll();
-                return $this->render('base/main.html.twig', [
+            $services = $serviceRepository->findAll();
+            $selectedCity = null;
+            $selectedCounty = null;
+            $selectedField = null;
+            $serviceFields = $serviceFieldRepository->findAll();
+            $counties = $countyRepository->findAll();
+            $cities = $cityRepository->findAll();
+
+            return $this->render('base/main.html.twig', [
                 'services' => $services,
                 'user' => $user,
+                'serviceFields' => $serviceFields,
+                'cities' => $cities,
+                'counties' => $counties,
+                'selectedField' => $selectedField,
+                'selectedCity' => $selectedCity,
+                'selectedCounty' => $selectedCounty,
 
-                ]);
+            ]);
+
+
         }
 
         return $this->redirectToRoute('app_profile', [
@@ -343,14 +370,20 @@ class BaseController extends AbstractController
     #[Route('service/{id}/details', name: 'app_service_details', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function service_details(Service $service, UserInformationRepository $informationRepository, ServiceImageRepository $imageRepository): Response
     {
+        $securityContext = $this->container->get('security.authorization_checker');
         $user = $this->security->getUser(); // null or UserInterface, if logged in
         $images = $imageRepository->findBy(array('service' => $service));
         $owner = $service->getOwner();
+        $customEdit = false;
+        if($securityContext->isGranted('ROLE_ADMIN') or $securityContext->isGranted('ROLE_EDITOR')){
+            $customEdit = true;
+        }
         return $this->render('base/serviceDetails.html.twig', [
             'user' => $user,
             'service' => $service,
             'owner' => $owner,
             'images' => $images,
+            'customEdit' => $customEdit
         ]);
 
     }
