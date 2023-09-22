@@ -165,8 +165,14 @@
                     <br><br><br>
                 </form>
 
+
+
+
                 <div class="tab-content">
                     <div id="tab-1" class="tab-pane fade show p-0 active">
+                        {% if nudimExists == null %}
+                            <p style="text-align: center;">Trenutno se ne nude usluge koje zadovoljavaju kriterije pretrage.</p>
+                        {% endif %}
                         <div class="row">
                             {% for service in services %}
                             {% if service.serviceType == '1' and service.serviceStatus != 'Nedostupno' and service.deadline|date('U') >= "now"|date('U') %}
@@ -223,6 +229,9 @@
                     </div>
 
                     <div id="tab-2" class="tab-pane fade show p-0">
+                        {% if trazimExists == null %}
+                            <p style="text-align: center;">Trenutno se ne traže usluge koje zadovoljavaju kriterije pretrage.</p>
+                        {% endif %}
                         <div class="row">
 
 

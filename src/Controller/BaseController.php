@@ -79,6 +79,17 @@ class BaseController extends AbstractController
             shuffle($services);
         }
 
+        $nudimExists = false;
+        $trazimExists = false;
+        foreach ($services as $service){
+            if($service->getServiceType() == '1'){
+                $nudimExists = true;
+            }
+            else if($service->getServiceType() == '2'){
+                $trazimExists = true;
+            }
+
+        }
 
         return $this->render('base/main.html.twig', [
             'services' => $services,
@@ -88,7 +99,9 @@ class BaseController extends AbstractController
             'counties' => $counties,
             'selectedField' => $selectedField,
             'selectedCity' => $selectedCity,
-            'selectedCounty' => $selectedCounty
+            'selectedCounty' => $selectedCounty,
+            'nudimExists' => $nudimExists,
+            'trazimExists' => $trazimExists
         ]);
     }
 
@@ -248,6 +261,8 @@ class BaseController extends AbstractController
             $selectedCity = null;
             $selectedCounty = null;
             $selectedField = null;
+            $nudimExists = true;
+            $trazimExists = true;
             $serviceFields = $serviceFieldRepository->findAll();
             $counties = $countyRepository->findAll();
             $cities = $cityRepository->findAll();
@@ -261,6 +276,8 @@ class BaseController extends AbstractController
                 'selectedField' => $selectedField,
                 'selectedCity' => $selectedCity,
                 'selectedCounty' => $selectedCounty,
+                'nudimExists' => $nudimExists,
+                'trazimExists' => $trazimExists
 
             ]);
 
@@ -292,6 +309,8 @@ class BaseController extends AbstractController
             $selectedCity = null;
             $selectedCounty = null;
             $selectedField = null;
+            $nudimExists = true;
+            $trazimExists = true;
             $serviceFields = $serviceFieldRepository->findAll();
             $counties = $countyRepository->findAll();
             $cities = $cityRepository->findAll();
@@ -305,6 +324,8 @@ class BaseController extends AbstractController
                 'selectedField' => $selectedField,
                 'selectedCity' => $selectedCity,
                 'selectedCounty' => $selectedCounty,
+                'nudimExists' => $nudimExists,
+                'trazimExists' => $trazimExists
 
             ]);
 
@@ -392,7 +413,7 @@ class BaseController extends AbstractController
 
     #[Route('{id}/rate/', name: 'app_rate_user', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     #[IsGranted("ROLE_USER")]
-    public function rate_user(Request $request, User $user, RatingRepository $ratingRepository, UserRatingRepository $userRatingRepository, ServiceRepository $serviceRepository): Response
+    public function rate_user(Request $request, User $user, RatingRepository $ratingRepository, UserRatingRepository $userRatingRepository, ServiceRepository $serviceRepository, ServiceFieldRepository $serviceFieldRepository, CityRepository $cityRepository, CountyRepository $countyRepository): Response
     {
         $rater = $this->security->getUser();
 
@@ -428,9 +449,25 @@ class BaseController extends AbstractController
 
         }else{
             $services = $serviceRepository->findAll();
+            $selectedCity = null;
+            $selectedCounty = null;
+            $selectedField = null;
+            $nudimExists = true;
+            $trazimExists = true;
+            $serviceFields = $serviceFieldRepository->findAll();
+            $counties = $countyRepository->findAll();
+            $cities = $cityRepository->findAll();
             return $this->render('base/main.html.twig', [
                 'services' => $services,
-                'user' => $rater,
+                'user' => $user,
+                'serviceFields' => $serviceFields,
+                'cities' => $cities,
+                'counties' => $counties,
+                'selectedField' => $selectedField,
+                'selectedCity' => $selectedCity,
+                'selectedCounty' => $selectedCounty,
+                'nudimExists' => $nudimExists,
+                'trazimExists' => $trazimExists
 
             ]);
 
