@@ -17,7 +17,7 @@ use function Sodium\add;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Već postoji račun s ovim email-om!')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
